@@ -2,73 +2,21 @@
 import pandas as pd
 import numpy as np
 
+"""
+THINGS TO DO:
+- make payments split across everyone by doing matched fee / total apps * apps
+- create balances for players
+- don't allow submission of player data if they aren't in a list of players
+"""
 
 
 #%% CREATE DUMMY DATA TO GET THE BALL ROLLING
 
-d = {"match_date": "2023-09-01",
-     "match_data" : [{"date": "2023-09-01",
-         "competition": "League",
-         "opponent": "Athenians",
-         "score": [5,1],
-         "ref_pay": "AB",
-         "player_data": {
-             "GM": {"Ap":1, "G":4,"A": 1},
-             "BS": {"Ap":1, "G":4,"A": 1},
-             "AB": {"Ap":0.5, "G":4,"A": 1},
-             "JS": {"Ap":1, "G":1,"Y": 1}
-                  }
-         }]}
-
-raw_games_data = pd.DataFrame(data=d, columns=["match_date", "match_data"])
-raw_games_data.set_index("match_date")
+pitch_fee = 96
+ref_fee = 50
+match_fee = pitch_fee + ref_fee
 
 
-#%% DEFINE FUNCTION TO ADD DATA TO RAW GAMES DATA
-
-def create_game(date, competition, opponent, score, ref_pay, player_data):
-
-    global raw_games_data
-
-    input_data = {"match_date": date,
-     "match_data" : [{"date": date,
-         "competition": competition,
-         "opponent": opponent,
-         "score": score,
-         "ref_pay": ref_pay,
-         "player_data": player_data
-         }]}
-    
-    if len(raw_games_data.loc[raw_games_data.match_date == date, "match_data"])>0:
-        if input(f'Do you want to overwrite {date}...(y/n)') == 'y':
-            raw_games_data.loc[raw_games_data.match_date == date, "match_data"] = input_data['player_data']
-
-    else:
-        raw_games_data = pd.concat([raw_games_data, pd.DataFrame(input_data)])
-
-        print("new game added..")
-        print(input_data)
-
-
-#%% TEST OUT ADDING DATA TO RAW GAMES DATA
-
-create_game("2023-09-08",
-            "League",
-            "Wood Lane",
-            [5-1],
-            "AB",
-            {
-             "GM": {"Ap":1, "G":4,"A": 1},
-             "BS": {"Ap":1, "G":4,"A": 1},
-             "AB": {"Ap":0.5, "G":4,"A": 1},
-             "JS": {"Ap":1, "G":1,"Y": 1}
-                  })
-
-
-raw_games_data
-
-
-#%% CREATE DUMMY DATA TO GET THE BALL ROLLING
 
 p = {"id": "2023-08-09-AB-EXT-50",
      "payment_data": [{
@@ -113,15 +61,211 @@ def create_payment(date, frm, to, amount, reason):
     
 #%%
 
+create_payment("2023-09-27", "AB", "TB", 50, "top-up")
+
+#%% CREATE DUMMY DATA TO GET THE BALL ROLLING
+
+d = {"match_date": "2023-09-01",
+     "match_data" : [{"date": "2023-09-01",
+         "competition": "League",
+         "opponent": "Athenians",
+         "score": [5,1],
+         "ref_pay": "AB",
+         "player_data": {
+             "GM": {"ap":1, "g":0,"a":0},
+             "BS": {"ap":1, "g":0,"a":0},
+             "AB": {"ap":0.5, "g":0,"a":0},
+             "JS": {"ap":1, "g":1,"y": 1}
+                  }
+         }]}
+
+raw_games_data = pd.DataFrame(data=d, columns=["match_date", "match_data"])
+raw_games_data.set_index("match_date")
 
 
-create_payment("2023-09-27", "AB", "TB", 50, "Top-Up")
+#%% DEFINE FUNCTION TO ADD DATA TO RAW GAMES DATA
+
+def create_game(date, competition, opponent, score, ref_pay, player_data):
+
+    global raw_games_data
+
+    input_data = {"match_date": date,
+     "match_data" : [{"date": date,
+         "competition": competition,
+         "opponent": opponent,
+         "score": score,
+         "ref_pay": ref_pay,
+         "player_data": player_data
+         }]}
+    
+    if len(raw_games_data.loc[raw_games_data.match_date == date, "match_data"])>0:
+        if input(f'Do you want to overwrite {date}...(y/n)') == 'y':
+            raw_games_data.loc[raw_games_data.match_date == date, "match_data"] = input_data['player_data']
+            create_payment(date, ref_pay, "REFS", 50, "Match Fee - "+str(opponent))
+
+    else:
+        raw_games_data = pd.concat([raw_games_data, pd.DataFrame(input_data)])
+        create_payment(date, ref_pay, "REFS", 50, "Match Fee - "+str(opponent))
+        print("new game added..")
+        print(input_data)
+
+
+#%% TEST OUT ADDING DATA TO RAW GAMES DATA
+
+create_game("2023-09-08",
+            "League",
+            "Wood Lane",
+            [5-1],
+            "AB",
+            {
+             "GM": {"ap":1, "g":0,"a":0},
+             "BS": {"ap":1, "g":0,"a":0},
+             "AB": {"ap":0.5, "g":0,"a":0},
+             "JS": {"ap":1, "g":1,"y": 1}
+                  })
+
+
+raw_games_data
+
+
+
+
+players_list = ['anand',
+                'aidan',
+                'sups',
+                'roks',
+                'boobs',
+                'g',
+                'suds',
+                'bean',
+                'stirl',
+                'wints',
+                'duz',
+                'tommy',
+                'hunter', 
+                'letch',
+                'ben jones',
+                'fred',
+                'gaddes',
+                'lex',
+                'dec' ,
+                'toby',
+                'ishaq',
+                'mk',
+                'joe s',
+                'josh',
+                'hayes',
+                'harley',
+                'rokun',
+                'danny',
+                'max b',
+                'ol',
+                'andy',
+                'alex f',
+                'alex h',
+                'benj',
+                'stokes',
+                'charlie',
+                'luke']
 
 
 
 
 
 
+# %% ACTUAL GAMES SUBMISSIONS BELOW
+
+create_game("2023-09-05", #YET TO FILL THIS IN FROM FIRST MATCH
+            "League",
+            "St. Johns Deaf",
+            [4-3],
+            "duz",
+            {
+             "stokes": {"ap":1, "g":0,"a":0},
+             "charlie": {"ap":1, "g":0,"a":0, "y":1},
+             "luke": {"ap":1, "g":0,"a":0},
+             "harley": {"ap":0.8, "g":0,"a":0, "sb":1},
+             "boobs": {"ap":0.8, "g":0,"a":0},             
+             "fred": {"ap":1, "g":0,"a":0},
+             "roks": {"ap":1, "g":0,"a":0},
+             "andy": {"ap":1, "g":2,"a":0},
+             "dec": {"ap":1, "g":1,"a":0},
+             "suds": {"ap":1, "g":0,"a":0},
+             "alex f": {"ap":0.4, "g":0,"a":0}
+                  })
+
+create_game("2023-09-13",
+            "League",
+            "Aloysius",
+            [5-0],
+            "g",
+            {
+             "alex h":  {"ap":1, "g":0,"a":0},
+             "anand":   {"ap":1, "g":0,"a":0},
+             "mk":      {"ap":1, "g":0,"a":0},
+             "sups":    {"ap":1, "g":0,"a":0},
+             "harley":  {"ap":1, "g":0,"a":0},
+             "boobs":   {"ap":0.6, "g":0,"a":0},             
+             "fred":    {"ap":1, "g":0,"a":0},
+             "roks":    {"ap":1, "g":1,"a":0},
+             "andy":    {"ap":1, "g":3,"a":0},
+             "dec":     {"ap":1, "g":1,"a":0},
+             "suds":    {"ap":1, "g":0,"a":0},
+             "hunter":  {"ap":0.4, "g":0,"a":0}
+                  })
+
+create_game("2023-09-20",
+            "League",
+            "Streatham FC",
+            [8-2],
+            "anand",
+            {
+             "alex h":  {"ap":1, "g":0,"a":0},
+             "anand":   {"ap":1, "g":1,"a":0},
+             "mk":      {"ap":1, "g":1,"a":0},
+             "fred":    {"ap":1, "g":0,"a":0},
+             "roks":    {"ap":1, "g":1,"a":0},
+             "andy":    {"ap":1, "g":1,"a":0},
+             "duz":     {"ap":1, "g":1,"a":0},
+             "g":       {"ap":1, "g":2,"a":0},
+             "stirl":   {"ap":1, "g":0,"a":0, "sb":1},
+             "hunter":  {"ap":1, "g":1,"a":0},
+             "benj":    {"ap":0.6, "g":0,"a":0}
+                  })
+
+create_game("2023-09-27",
+            "League",
+            "London Internationale 1s",
+            [4-6],
+            "duz",
+            {
+             "alex h":  {"ap":1, "g":0,"a":0},
+             "anand":   {"ap":1, "g":0,"a":0},
+             "sups":    {"ap":1, "g":0,"a":0},
+             "harley":  {"ap":1, "g":0,"a":0},
+             "fred":    {"ap":1, "g":0,"a":0},
+             "roks":    {"ap":1, "g":1,"a":0},
+             "boobs":   {"ap":1, "g":0,"a":0},
+             "duz":     {"ap":1, "g":0,"a":1},
+             "g":       {"ap":1, "g":0,"a":1},
+             "stirl":   {"ap":0.6, "g":1,"a":0},
+             "hunter":  {"ap":1, "g":1,"a":1},
+             "benj":    {"ap":0.5, "g":0,"a":0}
+                  })
+
+create_payment("2023-09-14", "fred", "anand", 50, "top-up")
+create_payment("2023-09-14", "dec", "anand", 50, "top-up")
+create_payment("2023-09-14", "stirl", "anand", 50, "top-up")
+create_payment("2023-09-14", "roks", "anand", 50, "top-up")
+create_payment("2023-09-14", "harley", "anand", 25, "top-up")
+create_payment("2023-09-18", "suds", "anand", 50, "top-up")
+create_payment("2023-09-21", "andy", "anand", 50, "top-up")
+create_payment("2023-09-21", "boobs", "anand", 50, "top-up")
+create_payment("2023-09-25", "anand", "ext", 12, "fine")
+create_payment("2023-09-25", "sups", "anand", 50, "top-up")
+create_payment("2023-09-27", "sups", "anand", 50, "top-up")
+
+#%%
 
 
 # %%
