@@ -253,6 +253,10 @@ create_game("2023-09-27",
              "benj":    {"ap":0.5, "g":0,"a":0}
                   })
 
+create_payment("2023-06-20", "anand", "ext", 100, "sign up")
+create_payment("2023-08-25", "anand", "ext", 165, "sign up")
+create_payment("2023-09-14", "anand", "ext", 200, "pitches")
+create_payment("2023-09-14", "fred", "anand", 50, "top-up")
 create_payment("2023-09-14", "fred", "anand", 50, "top-up")
 create_payment("2023-09-14", "dec", "anand", 50, "top-up")
 create_payment("2023-09-14", "stirl", "anand", 50, "top-up")
@@ -264,8 +268,12 @@ create_payment("2023-09-21", "boobs", "anand", 50, "top-up")
 create_payment("2023-09-25", "anand", "ext", 12, "fine")
 create_payment("2023-09-25", "sups", "anand", 50, "top-up")
 create_payment("2023-09-27", "sups", "anand", 50, "top-up")
+create_payment("2023-10-02", "anand", "ext", 200, "pitches")
 
 #%%
 
 
+# %%
+result = pd.json_normalize(raw_payment_data["payment_data"], ["date", "from", "to", "amount", "reason"])
+result
 # %%
