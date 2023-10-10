@@ -166,7 +166,8 @@ players_list = ['anand',
                 'benj',
                 'stokes',
                 'charlie',
-                'luke']
+                'luke',
+                'ben s']
 
 
 
@@ -178,7 +179,7 @@ players_list = ['anand',
 create_game("2023-09-05", #YET TO FILL THIS IN FROM FIRST MATCH
             "League",
             "St. Johns Deaf",
-            [4-3],
+            [4,3],
             "duz",
             {
              "stokes": {"ap":1, "g":0,"a":0},
@@ -191,13 +192,14 @@ create_game("2023-09-05", #YET TO FILL THIS IN FROM FIRST MATCH
              "andy": {"ap":1, "g":2,"a":0},
              "dec": {"ap":1, "g":1,"a":0},
              "suds": {"ap":1, "g":0,"a":0},
-             "alex f": {"ap":0.4, "g":0,"a":0}
+             "alex f": {"ap":0.4, "g":0,"a":0},             
+            "ben s": {"ap":0.5, "g":0,"a":0}
                   })
 
 create_game("2023-09-13",
             "League",
             "Aloysius",
-            [5-0],
+            [5,0],
             "g",
             {
              "alex h":  {"ap":1, "g":0,"a":0},
@@ -217,7 +219,7 @@ create_game("2023-09-13",
 create_game("2023-09-20",
             "League",
             "Streatham FC",
-            [8-2],
+            [8,2],
             "anand",
             {
              "alex h":  {"ap":1, "g":0,"a":0},
@@ -236,7 +238,7 @@ create_game("2023-09-20",
 create_game("2023-09-27",
             "League",
             "London Internationale 1s",
-            [4-6],
+            [4,6],
             "duz",
             {
              "alex h":  {"ap":1, "g":0,"a":0},
@@ -251,6 +253,26 @@ create_game("2023-09-27",
              "stirl":   {"ap":0.6, "g":1,"a":0},
              "hunter":  {"ap":1, "g":1,"a":1},
              "benj":    {"ap":0.5, "g":0,"a":0}
+                  })
+                
+create_game("2023-10-10",
+            "Tom Keane",
+            "Bonva United",
+            [2,1],
+            "anand",
+            {
+             "alex h":  {"ap":1, "g":0,"a":0},
+             "anand":   {"ap":1, "g":0,"a":1},
+             "sups":    {"ap":1, "g":1,"a":0},
+             "harley":  {"ap":0.7, "g":0,"a":0},
+             "fred":    {"ap":1, "g":0,"a":0},
+             "roks":    {"ap":1, "g":1,"a":0},
+             "boobs":   {"ap":1, "g":0,"a":0},
+             "duz":     {"ap":1, "g":0,"a":1},
+             "bean":       {"ap":1, "g":0,"a":0},
+             "suds":   {"ap":1, "g":0,"a":0},
+            "dec":  {"ap":1, "g":1,"a":0},
+             "ben s":    {"ap":0.5, "g":0,"a":0}
                   })
 
 create_payment("2023-09-14", "fred", "anand", 50, "top-up")
