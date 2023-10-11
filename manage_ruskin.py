@@ -176,7 +176,7 @@ players_list = ['anand',
 
 # %% ACTUAL GAMES SUBMISSIONS BELOW
 
-create_game("2023-09-05", #YET TO FILL THIS IN FROM FIRST MATCH
+create_game("2023-09-05",
             "League",
             "St. Johns Deaf",
             [4,3],
@@ -189,11 +189,11 @@ create_game("2023-09-05", #YET TO FILL THIS IN FROM FIRST MATCH
              "boobs": {"ap":0.8, "g":0,"a":0},             
              "fred": {"ap":1, "g":0,"a":0},
              "roks": {"ap":1, "g":0,"a":0},
-             "andy": {"ap":1, "g":2,"a":0},
+             "andy": {"ap":1, "g":2,"a":0, "m":1},
              "dec": {"ap":1, "g":1,"a":0},
              "suds": {"ap":1, "g":0,"a":0},
              "alex f": {"ap":0.4, "g":0,"a":0},             
-            "ben s": {"ap":0.5, "g":0,"a":0}
+             "ben s": {"ap":0.5, "g":0,"a":0}
                   })
 
 create_game("2023-09-13",
@@ -210,7 +210,7 @@ create_game("2023-09-13",
              "boobs":   {"ap":0.6, "g":0,"a":0},             
              "fred":    {"ap":1, "g":0,"a":0},
              "roks":    {"ap":1, "g":1,"a":0},
-             "andy":    {"ap":1, "g":3,"a":0},
+             "andy":    {"ap":1, "g":3,"a":0, "m": 1},
              "dec":     {"ap":1, "g":1,"a":0},
              "suds":    {"ap":1, "g":0,"a":0},
              "hunter":  {"ap":0.4, "g":0,"a":0}
@@ -229,7 +229,7 @@ create_game("2023-09-20",
              "roks":    {"ap":1, "g":1,"a":0},
              "andy":    {"ap":1, "g":1,"a":0},
              "duz":     {"ap":1, "g":1,"a":0},
-             "g":       {"ap":1, "g":2,"a":0},
+             "g":       {"ap":1, "g":2,"a":0, "m":1},
              "stirl":   {"ap":1, "g":0,"a":0, "sb":1},
              "hunter":  {"ap":1, "g":1,"a":0},
              "benj":    {"ap":0.6, "g":0,"a":0}
@@ -269,10 +269,10 @@ create_game("2023-10-10",
              "roks":    {"ap":1, "g":1,"a":0},
              "boobs":   {"ap":1, "g":0,"a":0},
              "duz":     {"ap":1, "g":0,"a":1},
-             "bean":       {"ap":1, "g":0,"a":0},
-             "suds":   {"ap":1, "g":0,"a":0},
-            "dec":  {"ap":1, "g":1,"a":0},
-             "ben s":    {"ap":0.5, "g":0,"a":0}
+             "bean":    {"ap":1, "g":0,"a":0},
+             "suds":    {"ap":1, "g":0,"a":0},
+             "dec":     {"ap":1, "g":1,"a":0},
+             "ben s":   {"ap":0.5, "g":0,"a":0, "m":1}
                   })
 
 create_payment("2023-06-20", "anand", "ext", 100, "sign up")
