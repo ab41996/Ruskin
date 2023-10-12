@@ -294,6 +294,7 @@ create_payment("2023-10-02", "fred", "anand", 50, "top-up")
 create_payment("2023-10-02", "harley", "anand", 13.5, "top-up")
 create_payment("2023-10-03", "stirl", "anand", 30, "top-up")
 create_payment("2023-10-10", "bean", "anand", 14, "match fee cash")
+create_payment("2023-10-12", "anand", "ext", 100, "pitch fee")
 
 #%%
 
