@@ -59,10 +59,6 @@ def create_payment(date, frm, to, amount, reason):
         print("new payment added..")
         print(input_data)
     
-#%%
-
-create_payment("2023-09-27", "AB", "TB", 50, "top-up")
-
 #%% CREATE DUMMY DATA TO GET THE BALL ROLLING
 
 d = {"match_date": "2023-09-01",
@@ -321,7 +317,8 @@ player_match_fee_totals['player'] = player_match_fee_totals["player"].apply(lamb
 player_match_fee_totals = player_match_fee_totals.groupby("player").sum("match_fees")
 
 #Creating final balances
-player_balances = player_balances.join(player_match_fee_totals).fillna(0)
+player_balances = player_balances.merge(player_match_fee_totals,on='player', how='outer').fillna(0)
+#%%
 player_balances['balance'] = player_balances['amount_from']-player_balances['amount_to']-player_balances['match_fees']
 #%% Check balances
 player_balances
