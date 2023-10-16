@@ -308,60 +308,22 @@ create_payment("2023-10-10", "bean", "anand", 14, "match fee cash")
 create_payment("2023-10-12", "anand", "ext", 100, "pitch fee")
 
 #%%
-# %% WORKING OUT BALANCES
+# %% WORKING OUT payments to and from players
 payments = pd.json_normalize(raw_payment_data["payment_data"])
-player_from = payments.rename(columns={"from": "player", "amount": "amount"}).groupby("player").sum("amount")
-player_to = payments.rename(columns={"to": "player", "amount": "amount"}).groupby("player").sum("amount")
-player_balances = player_from.join(player_to, lsuffix='_from', rsuffix='_to').fillna(0)
-player_balances['balance'] = player_balances['amount_from']-player_balances['amount_to']
-player_balances
-# %% ADDING MATCH FEE
+player_pay_from = payments.rename(columns={"from": "player", "amount": "amount"}).groupby("player").sum("amount")
+player_pay_to = payments.rename(columns={"to": "player", "amount": "amount"}).groupby("player").sum("amount")
+player_balances = player_pay_from.join(player_pay_to, lsuffix='_from', rsuffix='_to').fillna(0)
+
+# %% creating games dataframe and generating total match fees with fines
 games = pd.json_normalize(raw_games_data["match_data"])
-games
+player_match_fee_totals = games.filter(regex='f$').sum().reset_index().rename(columns={'index':'player', 0:'match_fees'})
+player_match_fee_totals['player'] = player_match_fee_totals["player"].apply(lambda x: x.split('.')[1])
+player_match_fee_totals = player_match_fee_totals.groupby("player").sum("match_fees")
 
-# %% adding fines and match fee to gamnes table NEED TO WORK OUT HOW TO CALCULATE BALANCE
-games = pd.json_normalize(raw_games_data['match_data']).fillna(0)
-games['match_fee'] = match_fee
-games['fines'] = games[[x for x in games.columns if ".y" in x]].sum(axis = "columns")*12
-games['apps'] = games[[x for x in games.columns if ".ap" in x]].sum(axis = "columns")
-games
-# %%
-games.filter(like='harley')
-# %%
-raw_games_data[raw_games_data['match_date']=='2023-09-05']['match_data']
-# %%
-games
-# %%
+#Creating final balances
+player_balances = player_balances.join(player_match_fee_totals).fillna(0)
+player_balances['balance'] = player_balances['amount_from']-player_balances['amount_to']-player_balances['match_fees']
+#%% Check balances
+player_balances
 
-
-
-
-input_data = {"match_date": "2023-09-01",
-     "match_data" : [{"date": "2023-09-01",
-         "competition": "League",
-         "opponent": "Athenians",
-         "score": [5,1],
-         "ref_pay": "AB",
-         "player_data": {
-             "GM": {"ap":1, "g":0,"a":0},
-             "BS": {"ap":1, "g":0,"a":0},
-             "AB": {"ap":0.5, "g":0,"a":0},
-             "JS": {"ap":1, "g":1,"y": 1}
-                  }
-         }]}
-
-yellow_cards = 0
-total_apps = 0
-print("yellows:" + str(yellow_cards))
-#calculate fines and add to match data
-for key, value in input_data["match_data"][0]["player_data"].items():
-    yellow_cards += value.get("y",0)
-    total_apps += value.get("ap", 0)
-print("yellows:" + str(yellow_cards))
-#Add total fee to match data
-total_fee = match_fee + yellow_cards*12
-print(total_fee)
-for key, value in input_data["match_data"][0]["player_data"].items():
-    value["f"] = round(total_fee*value.get("ap")/total_apps,4)
-    
 # %%
