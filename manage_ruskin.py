@@ -28,7 +28,7 @@ p = {"id": "2023-08-09-AB-EXT-50",
      }]
 }
 
-raw_payment_data = pd.DataFrame(data=p, columns=["id","payment_data"], index=[id])
+raw_payment_data = pd.DataFrame(data=None, columns=["id","payment_data"], index=[id])
 
 
 
@@ -54,7 +54,7 @@ def create_payment(date, frm, to, amount, reason):
             raw_payment_data.loc[raw_payment_data.id == id, "payment_data"] = input_data['payment_data']
 
     else:
-        raw_payment_data = pd.concat([raw_payment_data, pd.DataFrame(input_data)])
+        raw_payment_data = pd.concat([raw_payment_data, pd.DataFrame(input_data)]).reset_index(drop=True)
 
         print("new payment added..")
         print(input_data)
@@ -79,7 +79,7 @@ d = {"match_date": "2023-09-01",
                   }
          }]}
 
-raw_games_data = pd.DataFrame(data=d, columns=["match_date", "match_data"])
+raw_games_data = pd.DataFrame(data=None, columns=["match_date", "match_data"])
 raw_games_data.set_index("match_date")
 
 
@@ -98,36 +98,47 @@ def create_game(date, competition, opponent, score, ref_pay, player_data):
          "player_data": player_data
          }]}
     
+    print(input_data.keys())
+    
+    yellow_cards = 0
+    goals = 0
+    assists = 0
+    total_apps = 0
+
+    #calculate fines and add to match data
+    for key, value in input_data["match_data"][0]["player_data"].items():
+        yellow_cards += value.get("y",0)
+        total_apps += value.get("ap", 0)
+        goals += value.get("g", 0)
+        assists += value.get("a", 0)
+
+    #Add total fee to match data
+    total_fee = match_fee + yellow_cards*12
+    print(total_fee)
+    for key, value in input_data["match_data"][0]["player_data"].items():
+        value["f"] = round(total_fee*value.get("ap")/total_apps,4)
+    
+    #Print data
+    print("Total Goals: " +str(goals))
+    print("Total Assists: " +str(assists))
+    print("Total Yellow Cards: " +str(yellow_cards))
+    print("Total Match Fee: " +str(total_fee))
+    print("Total Apps: " +str(total_apps))
+    
+    
     if len(raw_games_data.loc[raw_games_data.match_date == date, "match_data"])>0:
         if input(f'Do you want to overwrite {date}...(y/n)') == 'y':
             raw_games_data.loc[raw_games_data.match_date == date, "match_data"] = input_data['player_data']
-            create_payment(date, ref_pay, "REFS", 50, "Match Fee - "+str(opponent))
+            create_payment(date, ref_pay, "refs", 50, "Match Fee - "+str(opponent))
 
     else:
         raw_games_data = pd.concat([raw_games_data, pd.DataFrame(input_data)])
-        create_payment(date, ref_pay, "REFS", 50, "Match Fee - "+str(opponent))
+        create_payment(date, ref_pay, "refs", 50, "Match Fee - "+str(opponent))
         print("new game added..")
         print(input_data)
 
 
-#%% TEST OUT ADDING DATA TO RAW GAMES DATA
-
-create_game("2023-09-08",
-            "League",
-            "Wood Lane",
-            [5-1],
-            "AB",
-            {
-             "GM": {"ap":1, "g":0,"a":0},
-             "BS": {"ap":1, "g":0,"a":0},
-             "AB": {"ap":0.5, "g":0,"a":0},
-             "JS": {"ap":1, "g":1,"y": 1}
-                  })
-
-
-raw_games_data
-
-
+#%% CREATING PLAYER LIST
 
 
 players_list = ['anand',
@@ -264,14 +275,14 @@ create_game("2023-10-10",
              "alex h":  {"ap":1, "g":0,"a":0},
              "anand":   {"ap":1, "g":0,"a":1},
              "sups":    {"ap":1, "g":1,"a":0},
-             "harley":  {"ap":0.7, "g":0,"a":0, "y":1}, #check the yellow on this
+             "harley":  {"ap":0.7, "g":0,"a":0}, #check the yellow on this
              "fred":    {"ap":1, "g":0,"a":0},
              "roks":    {"ap":1, "g":1,"a":0},
              "boobs":   {"ap":1, "g":0,"a":0},
              "duz":     {"ap":1, "g":0,"a":1},
              "bean":    {"ap":1, "g":0,"a":0},
              "suds":    {"ap":1, "g":0,"a":0},
-             "dec":     {"ap":1, "g":1,"a":0},
+             "dec":     {"ap":1, "g":1,"a":0, "y":1},
              "ben s":   {"ap":0.5, "g":0,"a":0, "m":1, "y":1}
                   })
 
@@ -297,9 +308,60 @@ create_payment("2023-10-10", "bean", "anand", 14, "match fee cash")
 create_payment("2023-10-12", "anand", "ext", 100, "pitch fee")
 
 #%%
+# %% WORKING OUT BALANCES
+payments = pd.json_normalize(raw_payment_data["payment_data"])
+player_from = payments.rename(columns={"from": "player", "amount": "amount"}).groupby("player").sum("amount")
+player_to = payments.rename(columns={"to": "player", "amount": "amount"}).groupby("player").sum("amount")
+player_balances = player_from.join(player_to, lsuffix='_from', rsuffix='_to').fillna(0)
+player_balances['balance'] = player_balances['amount_from']-player_balances['amount_to']
+player_balances
+# %% ADDING MATCH FEE
+games = pd.json_normalize(raw_games_data["match_data"])
+games
 
-
+# %% adding fines and match fee to gamnes table NEED TO WORK OUT HOW TO CALCULATE BALANCE
+games = pd.json_normalize(raw_games_data['match_data']).fillna(0)
+games['match_fee'] = match_fee
+games['fines'] = games[[x for x in games.columns if ".y" in x]].sum(axis = "columns")*12
+games['apps'] = games[[x for x in games.columns if ".ap" in x]].sum(axis = "columns")
+games
 # %%
-result = pd.json_normalize(raw_payment_data["payment_data"], ["date", "from", "to", "amount", "reason"])
-result
+games.filter(like='harley')
+# %%
+raw_games_data[raw_games_data['match_date']=='2023-09-05']['match_data']
+# %%
+games
+# %%
+
+
+
+
+input_data = {"match_date": "2023-09-01",
+     "match_data" : [{"date": "2023-09-01",
+         "competition": "League",
+         "opponent": "Athenians",
+         "score": [5,1],
+         "ref_pay": "AB",
+         "player_data": {
+             "GM": {"ap":1, "g":0,"a":0},
+             "BS": {"ap":1, "g":0,"a":0},
+             "AB": {"ap":0.5, "g":0,"a":0},
+             "JS": {"ap":1, "g":1,"y": 1}
+                  }
+         }]}
+
+yellow_cards = 0
+total_apps = 0
+print("yellows:" + str(yellow_cards))
+#calculate fines and add to match data
+for key, value in input_data["match_data"][0]["player_data"].items():
+    yellow_cards += value.get("y",0)
+    total_apps += value.get("ap", 0)
+print("yellows:" + str(yellow_cards))
+#Add total fee to match data
+total_fee = match_fee + yellow_cards*12
+print(total_fee)
+for key, value in input_data["match_data"][0]["player_data"].items():
+    value["f"] = round(total_fee*value.get("ap")/total_apps,4)
+    
 # %%
