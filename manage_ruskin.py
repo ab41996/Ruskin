@@ -1,24 +1,24 @@
 #%%
 import pandas as pd
 import numpy as np
+from types import SimpleNamespace
 
 """
 THINGS TO DO:
-- make payments split across everyone by doing matched fee / total apps * apps
-- create balances for players
-- don't allow submission of player data if they aren't in a list of players
+- Add fines not related to matched split by "Key" players
+- Add extras such as potential kits etc
 """
 
 
-#%% CREATE DUMMY DATA TO GET THE BALL ROLLING
+#%% Define fixed fees
 
 pitch_fee = 96
 ref_fee = 50
 match_fee = pitch_fee + ref_fee
 
+#%% create dummy payment and match data to test
 
-
-p = {"id": "2023-08-09-AB-EXT-50",
+payment1 = {"id": "2023-08-09-AB-EXT-50",
      "payment_data": [{
     "date": "2023-08-09",
     "from": "AB",
@@ -28,40 +28,7 @@ p = {"id": "2023-08-09-AB-EXT-50",
      }]
 }
 
-raw_payment_data = pd.DataFrame(data=None, columns=["id","payment_data"], index=[id])
-
-
-
-
-#%%
-
-def create_payment(date, frm, to, amount, reason):
-
-    global raw_payment_data
-    id = str(date)+'-'+str(frm)+'-'+str(to)+'-'+str(amount)
-
-    input_data = {"id": id,
-                  "payment_data": [{
-                        "date": date,
-                        "from": frm,
-                        "to": to,
-                        "amount": amount,
-                        "reason": reason
-                    }]
-                 }
-    if len(raw_payment_data.loc[raw_payment_data.id == id, "payment_data"])>0:
-        if input(f'Do you want to overwrite {id}...(y/n)') == 'y':
-            raw_payment_data.loc[raw_payment_data.id == id, "payment_data"] = input_data['payment_data']
-
-    else:
-        raw_payment_data = pd.concat([raw_payment_data, pd.DataFrame(input_data)]).reset_index(drop=True)
-
-        print("new payment added..")
-        print(input_data)
-    
-#%% CREATE DUMMY DATA TO GET THE BALL ROLLING
-
-d = {"match_date": "2023-09-01",
+game1 = {"match_date": "2023-09-01",
      "match_data" : [{"date": "2023-09-01",
          "competition": "League",
          "opponent": "Athenians",
@@ -75,111 +42,154 @@ d = {"match_date": "2023-09-01",
                   }
          }]}
 
+#%% Define player list
+
+players = {     "ext": "External Payments",
+                'anand': "Anand Bhakta",
+                'aidan': "Aidan Hughes",
+                'sups': "Ben Supple",
+                'roks': "Rokib Choudhury",
+                'boobs': "Joe Boobier",
+                'g': "George Mason",
+                'suds': "James Sudweeks",
+                'bean': "Ben Scrivner",
+                'stirl': "Jack Stirland",
+                'wints': "Max Winter",
+                'duz': "Tarun Bhakta",
+                'tommy': "Peter Collins",
+                'hunter': "Hunter Godson", 
+                'letch': "Eddie Letcher",
+                'ben jones': "Ben Jones",
+                'fred': "Fred Ianelli",
+                'gaddes': "Jack Gaddes",
+                'lex': "Alex Marsh",
+                'dec': "Dec Hall" ,
+                'toby': "Toby Bridges",
+                'ishaq': "Sheik Ishaq",
+                'mk': "Muhammad Mikaeel",
+                'joe s': "Joe Shorrock",
+                'josh': "Josh K?",
+                'hayes': "Ben Hayes",
+                'harley': "Harley Sylvester",
+                'rokun': "Rokun Choudhury",
+                'danny': "Danny ?",
+                'max b': "Max Borland",
+                'ol': "Ollie Mathieson",
+                'andy': "Andy Jenkinson",
+                'alex f': "Alex Ferguson",
+                'alex h': "Alex Hurrel",
+                'benj': "Oliver Benjamin",
+                'stokes': "Jake Stokes",
+                'charlie': "Charlie Hymas",
+                'luke': "Luke Nutt",
+                'ben s': "Ben Safari"}
+
+
+#%% Generate create_payment function and raw_payment_data df
+
+raw_payment_data = pd.DataFrame(data=None, columns=["id","payment_data"], index=[id])
+
+def create_payment(date, frm, to, amount, reason):
+
+    #define global variables
+    global raw_payment_data
+    global players
+
+    #Check player in player list
+    if frm in players.values() and to in players.values():
+
+        #generate unique id
+        id = str(date)+'-'+str(frm)+'-'+str(to)+'-'+str(amount)
+
+        #create dict of data with id
+        input_data = {"id": id,
+                    "payment_data": [{
+                            "date": date,
+                            "from": frm,
+                            "to": to,
+                            "amount": amount,
+                            "reason": reason
+                        }]
+                    }
+        
+        #Check for repeated payments
+        if len(raw_payment_data.loc[raw_payment_data.id == id, "payment_data"])>0:
+            if input(f'Do you want to overwrite {id}...(y/n)') == 'y':
+                raw_payment_data.loc[raw_payment_data.id == id, "payment_data"] = input_data['payment_data']
+
+        else:
+            raw_payment_data = pd.concat([raw_payment_data, pd.DataFrame(input_data)]).reset_index(drop=True)
+
+            print("new payment added..")
+            print(input_data)
+    else:
+        print("Payment sender/receiver not valid")
+
+
+#%% Define create_game function and raw_games df 
+
 raw_games_data = pd.DataFrame(data=None, columns=["match_date", "match_data"])
 raw_games_data.set_index("match_date")
 
-
-#%% DEFINE FUNCTION TO ADD DATA TO RAW GAMES DATA
-
 def create_game(date, competition, opponent, score, ref_pay, player_data):
 
+    #Define global variables
     global raw_games_data
+    global players
 
-    input_data = {"match_date": date,
-     "match_data" : [{"date": date,
-         "competition": competition,
-         "opponent": opponent,
-         "score": score,
-         "ref_pay": ref_pay,
-         "player_data": player_data
-         }]}
-    
-    print(input_data.keys())
-    
-    yellow_cards = 0
-    goals = 0
-    assists = 0
-    total_apps = 0
+    #Checking all players are valid
+    if all(player in players.values() for player in player_data.keys()):
 
-    #calculate fines and add to match data
-    for key, value in input_data["match_data"][0]["player_data"].items():
-        yellow_cards += value.get("y",0)
-        total_apps += value.get("ap", 0)
-        goals += value.get("g", 0)
-        assists += value.get("a", 0)
+        #Generated nested data
+        input_data = {"match_date": date,
+        "match_data" : [{"date": date,
+            "competition": competition,
+            "opponent": opponent,
+            "score": score,
+            "ref_pay": ref_pay,
+            "player_data": player_data
+            }]}
+        
+        #define variables for for loops
+        yellow_cards = 0
+        goals = 0
+        assists = 0
+        total_apps = 0
 
-    #Add total fee to match data
-    total_fee = match_fee + yellow_cards*12
-    print(total_fee)
-    for key, value in input_data["match_data"][0]["player_data"].items():
-        value["f"] = round(total_fee*value.get("ap")/total_apps,4)
-    
-    #Print data
-    print("Total Goals: " +str(goals))
-    print("Total Assists: " +str(assists))
-    print("Total Yellow Cards: " +str(yellow_cards))
-    print("Total Match Fee: " +str(total_fee))
-    print("Total Apps: " +str(total_apps))
-    
-    
-    if len(raw_games_data.loc[raw_games_data.match_date == date, "match_data"])>0:
-        if input(f'Do you want to overwrite {date}...(y/n)') == 'y':
-            raw_games_data.loc[raw_games_data.match_date == date, "match_data"] = input_data['player_data']
+        #calculate fines and add to match data
+        for key, value in input_data["match_data"][0]["player_data"].items():
+            yellow_cards += value.get("y",0)
+            total_apps += value.get("ap", 0)
+            goals += value.get("g", 0)
+            assists += value.get("a", 0)
+
+        #Add total fee to match data
+        total_fee = match_fee + yellow_cards*12
+        print(total_fee)
+        for key, value in input_data["match_data"][0]["player_data"].items():
+            value["f"] = round(total_fee*value.get("ap")/total_apps,4)
+        
+        #Print data
+        print("Total Goals: " +str(goals))
+        print("Total Assists: " +str(assists))
+        print("Total Yellow Cards: " +str(yellow_cards))
+        print("Total Match Fee: " +str(total_fee))
+        print("Total Apps: " +str(total_apps))
+        
+        #Check for duplicate games
+        if len(raw_games_data.loc[raw_games_data.match_date == date, "match_data"])>0:
+            if input(f'Do you want to overwrite {date}...(y/n)') == 'y':
+                raw_games_data.loc[raw_games_data.match_date == date, "match_data"] = input_data['player_data']
+                create_payment(date, ref_pay, "refs", 50, "Match Fee - "+str(opponent))
+
+        else:
+            raw_games_data = pd.concat([raw_games_data, pd.DataFrame(input_data)])
             create_payment(date, ref_pay, "refs", 50, "Match Fee - "+str(opponent))
+            print("new game added..")
+            print(input_data)
 
     else:
-        raw_games_data = pd.concat([raw_games_data, pd.DataFrame(input_data)])
-        create_payment(date, ref_pay, "refs", 50, "Match Fee - "+str(opponent))
-        print("new game added..")
-        print(input_data)
-
-
-#%% CREATING PLAYER LIST
-
-
-players_list = ['anand',
-                'aidan',
-                'sups',
-                'roks',
-                'boobs',
-                'g',
-                'suds',
-                'bean',
-                'stirl',
-                'wints',
-                'duz',
-                'tommy',
-                'hunter', 
-                'letch',
-                'ben jones',
-                'fred',
-                'gaddes',
-                'lex',
-                'dec' ,
-                'toby',
-                'ishaq',
-                'mk',
-                'joe s',
-                'josh',
-                'hayes',
-                'harley',
-                'rokun',
-                'danny',
-                'max b',
-                'ol',
-                'andy',
-                'alex f',
-                'alex h',
-                'benj',
-                'stokes',
-                'charlie',
-                'luke',
-                'ben s']
-
-
-
-
-
+        print("Invalid player selected")
 
 # %% ACTUAL GAMES SUBMISSIONS BELOW
 
@@ -187,140 +197,161 @@ create_game("2023-09-05",
             "League",
             "St. Johns Deaf",
             [4,3],
-            "duz",
+            players["duz"],
             {
-             "stokes": {"ap":1, "g":0,"a":0},
-             "charlie": {"ap":1, "g":0,"a":0, "y":1},
-             "luke": {"ap":1, "g":0,"a":0},
-             "harley": {"ap":0.8, "g":0,"a":0, "sb":1},
-             "boobs": {"ap":0.8, "g":0,"a":0},             
-             "fred": {"ap":1, "g":0,"a":0},
-             "roks": {"ap":1, "g":0,"a":0},
-             "andy": {"ap":1, "g":2,"a":0, "m":1},
-             "dec": {"ap":1, "g":1,"a":0},
-             "suds": {"ap":1, "g":0,"a":0},
-             "alex f": {"ap":0.4, "g":0,"a":0},             
-             "ben s": {"ap":0.5, "g":0,"a":0}
+             players["stokes"]: {"ap":1, "g":0,"a":0},
+             players["charlie"]: {"ap":1, "g":0,"a":0, "y":1},
+             players["luke"]: {"ap":1, "g":0,"a":0},
+             players["harley"]: {"ap":0.8, "g":0,"a":0, "sb":1},
+             players["boobs"]: {"ap":0.8, "g":0,"a":0},             
+             players["fred"]: {"ap":1, "g":0,"a":0},
+             players["roks"]: {"ap":1, "g":0,"a":0},
+             players["andy"]: {"ap":1, "g":2,"a":0, "m":1},
+             players["dec"]: {"ap":1, "g":1,"a":0},
+             players["suds"]: {"ap":1, "g":0,"a":0},
+             players["alex f"]: {"ap":0.4, "g":0,"a":0},             
+             players["ben s"]: {"ap":0.5, "g":0,"a":0}
                   })
 
 create_game("2023-09-13",
             "League",
             "Aloysius",
             [5,0],
-            "g",
+            players["g"],
             {
-             "alex h":  {"ap":1, "g":0,"a":0},
-             "anand":   {"ap":1, "g":0,"a":0},
-             "mk":      {"ap":1, "g":0,"a":0},
-             "sups":    {"ap":1, "g":0,"a":0},
-             "harley":  {"ap":1, "g":0,"a":0},
-             "boobs":   {"ap":0.6, "g":0,"a":0},             
-             "fred":    {"ap":1, "g":0,"a":0},
-             "roks":    {"ap":1, "g":1,"a":0},
-             "andy":    {"ap":1, "g":3,"a":0, "m": 1},
-             "dec":     {"ap":1, "g":1,"a":0},
-             "suds":    {"ap":1, "g":0,"a":0},
-             "hunter":  {"ap":0.4, "g":0,"a":0}
+             players["alex h"]:  {"ap":1, "g":0,"a":0},
+             players["anand"]:   {"ap":1, "g":0,"a":0},
+             players["mk"]:      {"ap":1, "g":0,"a":0},
+             players["sups"]:    {"ap":1, "g":0,"a":0},
+             players["harley"]:  {"ap":1, "g":0,"a":0},
+             players["boobs"]:   {"ap":0.6, "g":0,"a":0},             
+             players["fred"]:    {"ap":1, "g":0,"a":0},
+             players["roks"]:    {"ap":1, "g":1,"a":0},
+             players["andy"]:    {"ap":1, "g":3,"a":0, "m": 1},
+             players["dec"]:     {"ap":1, "g":1,"a":0},
+             players["suds"]:    {"ap":1, "g":0,"a":0},
+             players["hunter"]:  {"ap":0.4, "g":0,"a":0}
                   })
 
 create_game("2023-09-20",
             "League",
             "Streatham FC",
             [8,2],
-            "anand",
+            players["anand"],
             {
-             "alex h":  {"ap":1, "g":0,"a":0},
-             "anand":   {"ap":1, "g":1,"a":0},
-             "mk":      {"ap":1, "g":1,"a":0},
-             "fred":    {"ap":1, "g":0,"a":0},
-             "roks":    {"ap":1, "g":1,"a":0},
-             "andy":    {"ap":1, "g":1,"a":0},
-             "duz":     {"ap":1, "g":1,"a":0},
-             "g":       {"ap":1, "g":2,"a":0, "m":1},
-             "stirl":   {"ap":1, "g":0,"a":0, "sb":1},
-             "hunter":  {"ap":1, "g":1,"a":0},
-             "benj":    {"ap":0.6, "g":0,"a":0}
+             players["alex h"]:  {"ap":1, "g":0,"a":0},
+             players["anand"]:   {"ap":1, "g":1,"a":0},
+             players["mk"]:      {"ap":1, "g":1,"a":0},
+             players["fred"]:    {"ap":1, "g":0,"a":0},
+             players["roks"]:    {"ap":1, "g":1,"a":0},
+             players["andy"]:    {"ap":1, "g":1,"a":0},
+             players["duz"]:     {"ap":1, "g":1,"a":0},
+             players["g"]:       {"ap":1, "g":2,"a":0, "m":1},
+             players["stirl"]:   {"ap":1, "g":0,"a":0, "sb":1},
+             players["hunter"]:  {"ap":1, "g":1,"a":0},
+             players["benj"]:    {"ap":0.6, "g":0,"a":0}
                   })
 
 create_game("2023-09-27",
             "League",
             "London Internationale 1s",
             [4,6],
-            "duz",
+            players["duz"],
             {
-             "alex h":  {"ap":1, "g":0,"a":0},
-             "anand":   {"ap":1, "g":0,"a":0},
-             "sups":    {"ap":1, "g":0,"a":0},
-             "harley":  {"ap":1, "g":0,"a":0},
-             "fred":    {"ap":1, "g":0,"a":0},
-             "roks":    {"ap":1, "g":1,"a":0},
-             "boobs":   {"ap":1, "g":0,"a":0},
-             "duz":     {"ap":1, "g":0,"a":1},
-             "g":       {"ap":1, "g":0,"a":1},
-             "stirl":   {"ap":0.6, "g":1,"a":0},
-             "hunter":  {"ap":1, "g":1,"a":1},
-             "benj":    {"ap":0.5, "g":0,"a":0}
+             players["alex h"]:  {"ap":1, "g":0,"a":0},
+             players["anand"]:   {"ap":1, "g":0,"a":0},
+             players["sups"]:    {"ap":1, "g":0,"a":0},
+             players["harley"]:  {"ap":1, "g":0,"a":0},
+             players["fred"]:    {"ap":1, "g":0,"a":0},
+             players["roks"]:    {"ap":1, "g":1,"a":0},
+             players["boobs"]:   {"ap":1, "g":0,"a":0},
+             players["duz"]:     {"ap":1, "g":0,"a":1},
+             players["g"]:       {"ap":1, "g":0,"a":1},
+             players["stirl"]:   {"ap":0.6, "g":1,"a":0},
+             players["hunter"]:  {"ap":1, "g":1,"a":1},
+             players["benj"]:    {"ap":0.5, "g":0,"a":0}
                   })
                 
 create_game("2023-10-10",
             "Tom Keane",
             "Bonva United",
             [2,1],
-            "anand",
+            players["anand"],
             {
-             "alex h":  {"ap":1, "g":0,"a":0},
-             "anand":   {"ap":1, "g":0,"a":1},
-             "sups":    {"ap":1, "g":1,"a":0},
-             "harley":  {"ap":0.7, "g":0,"a":0}, #check the yellow on this
-             "fred":    {"ap":1, "g":0,"a":0},
-             "roks":    {"ap":1, "g":1,"a":0},
-             "boobs":   {"ap":1, "g":0,"a":0},
-             "duz":     {"ap":1, "g":0,"a":1},
-             "bean":    {"ap":1, "g":0,"a":0},
-             "suds":    {"ap":1, "g":0,"a":0},
-             "dec":     {"ap":1, "g":1,"a":0, "y":1},
-             "ben s":   {"ap":0.5, "g":0,"a":0, "m":1, "y":1}
+             players["alex h"]:  {"ap":1, "g":0,"a":0},
+             players["anand"]:   {"ap":1, "g":0,"a":1},
+             players["sups"]:    {"ap":1, "g":1,"a":0},
+             players["harley"]:  {"ap":0.7, "g":0,"a":0}, #check the yellow on this
+             players["fred"]:    {"ap":1, "g":0,"a":0},
+             players["roks"]:    {"ap":1, "g":1,"a":0},
+             players["boobs"]:   {"ap":1, "g":0,"a":0},
+             players["duz"]:     {"ap":1, "g":0,"a":1},
+             players["bean"]:    {"ap":1, "g":0,"a":0},
+             players["suds"]:    {"ap":1, "g":0,"a":0},
+             players["dec"]:     {"ap":1, "g":1,"a":0, "y":1},
+             players["ben s"]:   {"ap":0.5, "g":0,"a":0, "m":1, "y":1}
                   })
+#%% ACTUAL PAYMENT SUBMISSIONS BELOW
 
-create_payment("2023-06-20", "anand", "ext", 100, "sign up")
-create_payment("2023-08-25", "anand", "ext", 165, "sign up")
-create_payment("2023-09-14", "anand", "ext", 200, "pitches")
-create_payment("2023-09-14", "fred", "anand", 50, "top-up")
-create_payment("2023-09-14", "dec", "anand", 50, "top-up")
-create_payment("2023-09-14", "stirl", "anand", 50, "top-up")
-create_payment("2023-09-14", "roks", "anand", 50, "top-up")
-create_payment("2023-09-14", "harley", "anand", 25, "top-up")
-create_payment("2023-09-18", "suds", "anand", 50, "top-up")
-create_payment("2023-09-21", "andy", "anand", 50, "top-up")
-create_payment("2023-09-21", "boobs", "anand", 50, "top-up")
-create_payment("2023-09-25", "anand", "ext", 12, "fine")
-create_payment("2023-09-25", "sups", "anand", 50, "top-up")
-create_payment("2023-09-27", "sups", "anand", 50, "top-up")
-create_payment("2023-10-02", "anand", "ext", 200, "pitches")
-create_payment("2023-10-02", "fred", "anand", 50, "top-up")
-create_payment("2023-10-02", "harley", "anand", 13.5, "top-up")
-create_payment("2023-10-03", "stirl", "anand", 30, "top-up")
-create_payment("2023-10-10", "bean", "anand", 14, "match fee cash")
-create_payment("2023-10-12", "anand", "ext", 100, "pitch fee")
+create_payment("2023-06-20", players["anand"], players["ext"], 100, "sign up")
+create_payment("2023-08-25", players["anand"], players["ext"], 165, "sign up")
+create_payment("2023-09-14", players["anand"], players["ext"], 200, "pitches")
+create_payment("2023-09-14", players["fred"], players["anand"], 50, "top-up")
+create_payment("2023-09-14", players["dec"], players["anand"], 50, "top-up")
+create_payment("2023-09-14", players["stirl"], players["anand"], 50, "top-up")
+create_payment("2023-09-14", players["roks"], players["anand"], 50, "top-up")
+create_payment("2023-09-14", players["harley"], players["anand"], 25, "top-up")
+create_payment("2023-09-18", players["suds"], players["anand"], 50, "top-up")
+create_payment("2023-09-21", players["andy"], players["anand"], 50, "top-up")
+create_payment("2023-09-21", players["boobs"], players["anand"], 50, "top-up")
+create_payment("2023-09-25", players["anand"], players["ext"], 12, "fine")
+create_payment("2023-09-25", players["sups"], players["anand"], 50, "top-up")
+create_payment("2023-09-27", players["sups"], players["anand"], 50, "top-up")
+create_payment("2023-10-02", players["anand"], players["ext"], 200, "pitches")
+create_payment("2023-10-02", players["fred"], players["anand"], 50, "top-up")
+create_payment("2023-10-02", players["harley"], players["anand"], 13.5, "top-up")
+create_payment("2023-10-03", players["stirl"], players["anand"], 30, "top-up")
+create_payment("2023-10-10", players["bean"], players["anand"], 14, "match fee cash")
+create_payment("2023-10-12", players["anand"], players["ext"], 100, "pitch fee")
 
-#%%
-# %% WORKING OUT payments to and from players
-payments = pd.json_normalize(raw_payment_data["payment_data"])
-player_pay_from = payments.rename(columns={"from": "player", "amount": "amount"}).groupby("player").sum("amount")
-player_pay_to = payments.rename(columns={"to": "player", "amount": "amount"}).groupby("player").sum("amount")
-player_balances = player_pay_from.join(player_pay_to, lsuffix='_from', rsuffix='_to').fillna(0)
 
-# %% creating games dataframe and generating total match fees with fines
-games = pd.json_normalize(raw_games_data["match_data"])
-player_match_fee_totals = games.filter(regex='f$').sum().reset_index().rename(columns={'index':'player', 0:'match_fees'})
-player_match_fee_totals['player'] = player_match_fee_totals["player"].apply(lambda x: x.split('.')[1])
-player_match_fee_totals = player_match_fee_totals.groupby("player").sum("match_fees")
+#%% Definig generate balances function
 
-#Creating final balances
-player_balances = player_balances.merge(player_match_fee_totals,on='player', how='outer').fillna(0)
-#%%
-player_balances['balance'] = player_balances['amount_from']-player_balances['amount_to']-player_balances['match_fees']
-#%% Check balances
-player_balances
+def generate_balances():
+    #defining global variables
+    global raw_payment_data
+    global raw_games_data
+    global payments
+    global games
+    global player_balances
 
+    #Generating list of payments from and to players
+    payments = pd.json_normalize(raw_payment_data["payment_data"])
+    player_pay_from = payments.rename(columns={"from": "player", "amount": "amount"}).groupby("player").sum("amount")
+    player_pay_to = payments.rename(columns={"to": "player", "amount": "amount"}).groupby("player").sum("amount")
+    player_balances = player_pay_from.join(player_pay_to, lsuffix='_from', rsuffix='_to').fillna(0)
+
+    #creating games dataframe and generating total match fees with fines
+    games = pd.json_normalize(raw_games_data["match_data"])
+    player_match_fee_totals = games.filter(regex='f$').sum().reset_index().rename(columns={'index':'player', 0:'match_fees'})
+    player_match_fee_totals['player'] = player_match_fee_totals["player"].apply(lambda x: x.split('.')[1])
+    player_match_fee_totals = player_match_fee_totals.groupby("player").sum("match_fees")
+
+    #Creating final balances
+    player_balances = player_balances.merge(player_match_fee_totals,on='player', how='outer').fillna(0)
+    player_balances['balance'] = player_balances['amount_from']-player_balances['amount_to']-player_balances['match_fees']
+    print(player_balances)
+
+# %% Define get payments 
+def get_payments(player):
+    cash_payments = payments[(payments['from']==player)|(payments['to']==player)]
+    match_fees = games.filter(regex=f'{player}.f$|date|opponent').fillna(0)
+    print(cash_payments)
+    print(match_fees)
+
+#%% get payments for a playuer
+get_payments(players["g"])
+
+# %% generate balances and print
+generate_balances()
 # %%
