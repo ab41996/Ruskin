@@ -7,6 +7,8 @@ from types import SimpleNamespace
 THINGS TO DO:
 - Add fines not related to matched split by "Key" players
 - Add extras such as potential kits etc
+- Add G mase extras and sign up fee for start of season
+- Work out how to reconcile the balances
 """
 
 
@@ -45,6 +47,7 @@ game1 = {"match_date": "2023-09-01",
 #%% Define player list
 
 players = {     "ext": "External Payments",
+                'refs': 'Referee Payments',
                 'anand': "Anand Bhakta",
                 'aidan': "Aidan Hughes",
                 'sups': "Ben Supple",
@@ -123,7 +126,10 @@ def create_payment(date, frm, to, amount, reason):
             print("new payment added..")
             print(input_data)
     else:
-        print("Payment sender/receiver not valid")
+        if frm in players.values():
+            raise Exception(f"INVALID PAYMENT SENDER/RECEIVER: {to}")
+        else:
+            raise Exception(f"INVALID PAYMENT SENDER/RECEIVER: {frm}")
 
 
 #%% Define create_game function and raw_games df 
@@ -179,17 +185,19 @@ def create_game(date, competition, opponent, score, ref_pay, player_data):
         #Check for duplicate games
         if len(raw_games_data.loc[raw_games_data.match_date == date, "match_data"])>0:
             if input(f'Do you want to overwrite {date}...(y/n)') == 'y':
+                create_payment(date, ref_pay, players["refs"], 50, "Match Fee - "+str(opponent))
                 raw_games_data.loc[raw_games_data.match_date == date, "match_data"] = input_data['player_data']
-                create_payment(date, ref_pay, "refs", 50, "Match Fee - "+str(opponent))
+                print("new game added..")
+                print(input_data)
 
         else:
+            create_payment(date, ref_pay, players["refs"], 50, "Match Fee - "+str(opponent))
             raw_games_data = pd.concat([raw_games_data, pd.DataFrame(input_data)])
-            create_payment(date, ref_pay, "refs", 50, "Match Fee - "+str(opponent))
             print("new game added..")
             print(input_data)
 
     else:
-        print("Invalid player selected")
+        raise Exception("INVALID PLAYER SELECTION")
 
 # %% ACTUAL GAMES SUBMISSIONS BELOW
 
@@ -212,6 +220,7 @@ create_game("2023-09-05",
              players["alex f"]: {"ap":0.4, "g":0,"a":0},             
              players["ben s"]: {"ap":0.5, "g":0,"a":0}
                   })
+#%%
 
 create_game("2023-09-13",
             "League",
@@ -280,8 +289,8 @@ create_game("2023-10-10",
             {
              players["alex h"]:  {"ap":1, "g":0,"a":0},
              players["anand"]:   {"ap":1, "g":0,"a":1},
-             players["sups"]:    {"ap":1, "g":1,"a":0},
-             players["harley"]:  {"ap":0.7, "g":0,"a":0}, #check the yellow on this
+             players["sups"]:    {"ap":1, "g":1,"a":0, "m":1},
+             players["harley"]:  {"ap":0.7, "g":0,"a":0},
              players["fred"]:    {"ap":1, "g":0,"a":0},
              players["roks"]:    {"ap":1, "g":1,"a":0},
              players["boobs"]:   {"ap":1, "g":0,"a":0},
@@ -289,7 +298,7 @@ create_game("2023-10-10",
              players["bean"]:    {"ap":1, "g":0,"a":0},
              players["suds"]:    {"ap":1, "g":0,"a":0},
              players["dec"]:     {"ap":1, "g":1,"a":0, "y":1},
-             players["ben s"]:   {"ap":0.5, "g":0,"a":0, "m":1, "y":1}
+             players["ben s"]:   {"ap":0.5, "g":0,"a":0, "y":1}
                   })
 #%% ACTUAL PAYMENT SUBMISSIONS BELOW
 
@@ -307,15 +316,26 @@ create_payment("2023-09-21", players["boobs"], players["anand"], 50, "top-up")
 create_payment("2023-09-25", players["anand"], players["ext"], 12, "fine")
 create_payment("2023-09-25", players["sups"], players["anand"], 50, "top-up")
 create_payment("2023-09-27", players["sups"], players["anand"], 50, "top-up")
-create_payment("2023-10-02", players["anand"], players["ext"], 200, "pitches")
+create_payment("2023-10-01", players["anand"], players["ext"], 200, "pitches")
 create_payment("2023-10-02", players["fred"], players["anand"], 50, "top-up")
+create_payment("2023-10-02", players["suds"], players["anand"], 50, "top-up")
 create_payment("2023-10-02", players["harley"], players["anand"], 13.5, "top-up")
 create_payment("2023-10-03", players["stirl"], players["anand"], 30, "top-up")
 create_payment("2023-10-10", players["bean"], players["anand"], 14, "match fee cash")
 create_payment("2023-10-12", players["anand"], players["ext"], 100, "pitch fee")
 
+create_payment("2023-10-17", players["boobs"], players["anand"], 50, "top-up")
+create_payment("2023-10-17", players["harley"], players["anand"], 10.60, "top-up")
+create_payment("2023-10-17", players["hunter"], players["anand"], 32, "top-up")
+create_payment("2023-10-17", players["alex h"], players["anand"], 55, "top-up")
+create_payment("2023-10-19", players["anand"], players["ext"], 100, "pitch fee")
+create_payment("2023-10-19", players["anand"], players["ext"], 24, "fines")
+
+
 
 #%% Definig generate balances function
+payments = pd.json_normalize(raw_payment_data["payment_data"])
+games = pd.json_normalize(raw_games_data["match_data"])
 
 def generate_balances():
     #defining global variables
@@ -326,13 +346,11 @@ def generate_balances():
     global player_balances
 
     #Generating list of payments from and to players
-    payments = pd.json_normalize(raw_payment_data["payment_data"])
     player_pay_from = payments.rename(columns={"from": "player", "amount": "amount"}).groupby("player").sum("amount")
     player_pay_to = payments.rename(columns={"to": "player", "amount": "amount"}).groupby("player").sum("amount")
     player_balances = player_pay_from.join(player_pay_to, lsuffix='_from', rsuffix='_to').fillna(0)
 
     #creating games dataframe and generating total match fees with fines
-    games = pd.json_normalize(raw_games_data["match_data"])
     player_match_fee_totals = games.filter(regex='f$').sum().reset_index().rename(columns={'index':'player', 0:'match_fees'})
     player_match_fee_totals['player'] = player_match_fee_totals["player"].apply(lambda x: x.split('.')[1])
     player_match_fee_totals = player_match_fee_totals.groupby("player").sum("match_fees")
@@ -344,14 +362,29 @@ def generate_balances():
 
 # %% Define get payments 
 def get_payments(player):
+    global payments
+
     cash_payments = payments[(payments['from']==player)|(payments['to']==player)]
     match_fees = games.filter(regex=f'{player}.f$|date|opponent').fillna(0)
     print(cash_payments)
     print(match_fees)
 
 #%% get payments for a playuer
-get_payments(players["g"])
+get_payments(players["anand"])
 
 # %% generate balances and print
 generate_balances()
+# %%
+payments
+# %%
+payments
+# %%
+games
+# %%
+player_balances[player_balances.index != "Anand Bhakta"].sum()
+
+# %%
+player_balances.sum()
+# %%
+games.filter(like='Ben Supple')
 # %%
