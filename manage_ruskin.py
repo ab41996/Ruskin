@@ -48,6 +48,7 @@ game1 = {"match_date": "2023-09-01",
 
 players = {     "ext": "External Payments",
                 'refs': 'Referee Payments',
+                'ruskin': 'Ruskin Club',
                 'anand': "Anand Bhakta",
                 'aidan': "Aidan Hughes",
                 'sups': "Ben Supple",
@@ -131,6 +132,30 @@ def create_payment(date, frm, to, amount, reason):
         else:
             raise Exception(f"INVALID PAYMENT SENDER/RECEIVER: {frm}")
 
+#%% Define custom_bill function to generate multiple payments
+
+def custom_bill(date, payee, recipients, amount, even_split, reason):
+    #define global variables
+    global raw_payment_data
+    global players
+
+    #Check player in player list
+    if payee in players.values() and [recipient in players.values() for recipient in recipients]:
+
+        #Number of players to split by
+        count = len(recipients)
+        to = payee
+
+        #for loop to create each payment
+        for recipient in recipients:
+            if even_split:
+                frm = recipient
+                amnt = amount/count
+                create_payment(date, frm, to, -amnt, f"Bill Split - {reason}")
+            elif not even_split:
+                frm = recipient[0]
+                amnt = recipient[0]
+                create_payment(date, frm, to, -amnt, f"Bill Split - {reason}")
 
 #%% Define create_game function and raw_games df 
 
@@ -186,12 +211,14 @@ def create_game(date, competition, opponent, score, ref_pay, player_data):
         if len(raw_games_data.loc[raw_games_data.match_date == date, "match_data"])>0:
             if input(f'Do you want to overwrite {date}...(y/n)') == 'y':
                 create_payment(date, ref_pay, players["refs"], 50, "Match Fee - "+str(opponent))
+                create_payment(date, players['ruskin'], players["ext"], pitch_fee, "Pitch Fee - "+str(opponent))
                 raw_games_data.loc[raw_games_data.match_date == date, "match_data"] = input_data['player_data']
                 print("new game added..")
                 print(input_data)
 
         else:
             create_payment(date, ref_pay, players["refs"], 50, "Match Fee - "+str(opponent))
+            create_payment(date, players['ruskin'], players["ext"], pitch_fee, "Pitch Fee - "+str(opponent))
             raw_games_data = pd.concat([raw_games_data, pd.DataFrame(input_data)])
             print("new game added..")
             print(input_data)
@@ -302,9 +329,30 @@ create_game("2023-10-10",
                   })
 #%% ACTUAL PAYMENT SUBMISSIONS BELOW
 
-create_payment("2023-06-20", players["anand"], players["ext"], 100, "sign up")
-create_payment("2023-08-25", players["anand"], players["ext"], 165, "sign up")
-create_payment("2023-09-14", players["anand"], players["ext"], 200, "pitches")
+custom_bill("2023-06-10", players["g"], 
+                            [players['aidan'],
+                            players['roks'],
+                            players['boobs'],
+                            players['g'],
+                            players['suds'],
+                            players['stirl'],
+                            players['duz'],
+                            players['tommy'],
+                            players['hunter'],
+                            players['letch'],
+                            players['ben jones'],
+                            players['dec'],
+                            players['toby'],
+                            players['mk'],
+                            players['joe s'],
+                            players['harley']], 70, True, "End of Season Meal")
+create_payment("2023-06-20", players["ext"], players["ruskin"], 129.15, "rolled over")
+create_payment("2023-06-20", players["anand"], players["ruskin"], 100, "NO INVOICE: Annual Subscription")
+create_payment("2023-06-20", players["ruskin"], players["ext"], 100, "Annual Subscription")
+create_payment("2023-06-20", players["ext"], players["ruskin"], 50, "Raffle")
+create_payment("2023-08-25", players["anand"], players["ruskin"], 165, "INVOICE(17/08/23): pitch fee + fines")
+create_payment("2023-08-25", players["ruskin"], players["ext"], 65, "fines")
+create_payment("2023-09-14", players["anand"], players["ruskin"], 200, "INVOICE(04/09/23): pitch fee")
 create_payment("2023-09-14", players["fred"], players["anand"], 50, "top-up")
 create_payment("2023-09-14", players["dec"], players["anand"], 50, "top-up")
 create_payment("2023-09-14", players["stirl"], players["anand"], 50, "top-up")
@@ -316,19 +364,18 @@ create_payment("2023-09-21", players["boobs"], players["anand"], 50, "top-up")
 create_payment("2023-09-25", players["anand"], players["ext"], 12, "fine")
 create_payment("2023-09-25", players["sups"], players["anand"], 50, "top-up")
 create_payment("2023-09-27", players["sups"], players["anand"], 50, "top-up")
-create_payment("2023-10-01", players["anand"], players["ext"], 200, "pitches")
+create_payment("2023-10-01", players["anand"], players["ruskin"], 200, "INVOICE(18/09/23): pitch fee")
 create_payment("2023-10-02", players["fred"], players["anand"], 50, "top-up")
 create_payment("2023-10-02", players["suds"], players["anand"], 50, "top-up")
 create_payment("2023-10-02", players["harley"], players["anand"], 13.5, "top-up")
 create_payment("2023-10-03", players["stirl"], players["anand"], 30, "top-up")
 create_payment("2023-10-10", players["bean"], players["anand"], 14, "match fee cash")
-create_payment("2023-10-12", players["anand"], players["ext"], 100, "pitch fee")
-
+create_payment("2023-10-12", players["anand"], players["ruskin"], 100, "INVOICE(02/10/23): pitch fee")
 create_payment("2023-10-17", players["boobs"], players["anand"], 50, "top-up")
 create_payment("2023-10-17", players["harley"], players["anand"], 10.60, "top-up")
 create_payment("2023-10-17", players["hunter"], players["anand"], 32, "top-up")
 create_payment("2023-10-17", players["alex h"], players["anand"], 55, "top-up")
-create_payment("2023-10-19", players["anand"], players["ext"], 100, "pitch fee")
+create_payment("2023-10-19", players["anand"], players["ruskin"], 100, "INVOICE(16/10/23): pitch fee")
 create_payment("2023-10-19", players["anand"], players["ext"], 24, "fines")
 
 
@@ -370,21 +417,11 @@ def get_payments(player):
     print(match_fees)
 
 #%% get payments for a playuer
-get_payments(players["anand"])
+get_payments(players["g"])
 
 # %% generate balances and print
 generate_balances()
 # %%
 payments
 # %%
-payments
-# %%
 games
-# %%
-player_balances[player_balances.index != "Anand Bhakta"].sum()
-
-# %%
-player_balances.sum()
-# %%
-games.filter(like='Ben Supple')
-# %%
