@@ -1,7 +1,10 @@
 #%%
+import sqlite3 as db
 import pandas as pd
 import numpy as np
 from types import SimpleNamespace
+import json
+import sqlalchemy
 
 """
 THINGS TO DO:
@@ -10,6 +13,14 @@ THINGS TO DO:
 - Add G mase extras and sign up fee for start of season
 - Work out how to reconcile the balances
 """
+
+
+
+#%%
+
+
+
+#%%
 
 
 #%% Define fixed fees
@@ -43,6 +54,36 @@ game1 = {"match_date": "2023-09-01",
              "JS": {"ap":1, "g":1,"y": 1}
                   }
          }]}
+
+game2 = {"match_date": "2023-10-01",
+     "match_data" : [{"date": "2023-09-01",
+         "competition": "League",
+         "opponent": "Athenians",
+         "score": [5,1],
+         "ref_pay": "AB",
+         "player_data": {
+             "JOE": {"ap":1, "g":0,"a":0},
+             "JIM": {"ap":1, "g":0,"a":0},
+             "JAMES": {"ap":0.5, "g":0,"a":0},
+             "JARRYD": {"ap":1, "g":1,"y": 1}
+                  }
+         }]}
+
+game3 = {"match_date": "2023-11-01",
+     "match_data" : [{"date": "2023-11-01",
+         "competition": "Cup",
+         "opponent": "Athenians",
+         "score": [5,1],
+         "ref_pay": "AB",
+         "player_data": {
+             "JOE": {"ap":1, "g":0,"a":0},
+             "JIM": {"ap":1, "g":0,"a":0},
+             "JAMES": {"ap":0.5, "g":0,"a":0},
+             "JARRYD": {"ap":1, "g":1,"y": 1}
+                  }
+         }]}
+
+
 
 #%% Define player list
 
@@ -327,6 +368,26 @@ create_game("2023-10-10",
              players["dec"]:     {"ap":1, "g":1,"a":0, "y":1},
              players["ben s"]:   {"ap":0.5, "g":0,"a":0, "y":1}
                   })
+
+create_game("2023-10-24",
+            "League",
+            "Inter Mile End",
+            [2,8],
+            players["sups"],
+            {
+             players["anand"]:   {"ap":1, "g":0,"a":1},
+             players["sups"]:    {"ap":1, "g":1,"a":0, "m":1},
+             players["g"]:  {"ap":0.7, "g":0,"a":0},
+             players["benj"]:    {"ap":1, "g":0,"a":0},
+             players["stirl"]:    {"ap":1, "g":1,"a":0},
+             players["roks"]:   {"ap":1, "g":0,"a":0},
+             players["duz"]:     {"ap":1, "g":0,"a":1},
+             players["mk"]:    {"ap":1, "g":0,"a":0},
+             players["suds"]:    {"ap":1, "g":0,"a":0},
+             players["dec"]:     {"ap":1, "g":1,"a":0, "y":1}
+                  })
+
+                
 #%% ACTUAL PAYMENT SUBMISSIONS BELOW
 
 custom_bill("2023-06-10", players["g"], 
@@ -381,8 +442,8 @@ create_payment("2023-10-19", players["anand"], players["ext"], 24, "fines")
 
 
 #%% Definig generate balances function
-payments = pd.json_normalize(raw_payment_data["payment_data"])
-games = pd.json_normalize(raw_games_data["match_data"])
+payments = pd.json_normalize(raw_payment_data["payment_data"]) # type: ignore
+games = pd.json_normalize(raw_games_data["match_data"]) # type: ignore
 
 def generate_balances():
     #defining global variables
@@ -425,3 +486,75 @@ generate_balances()
 payments
 # %%
 games
+#%%
+#%% Creating sqlite database ______________________________
+#==================================================FUCNTIONing CODE==================================================================================================================================
+#Create a database to store the pandas dataframes
+conn = db.connect('ruskin.db')
+cn = conn.cursor()
+
+#%% convert json data to string first
+raw_payment_data['payment_data'] = raw_payment_data['payment_data'].astype(str)
+raw_games_data['match_data'] = raw_games_data['match_data'].astype(str)
+
+#%% create sql tables for raw data pulls
+raw_payment_data.to_sql('raw_payments_data', conn, if_exists="replace", dtype={"payment_data": 'JSON'} )
+raw_games_data.to_sql('raw_games_data', conn, if_exists="replace", dtype={"games_data": 'JSON'} )
+
+#%%
+raw_payment_data.to_sql('raw_payments_data', conn, if_exists="replace", dtype={"payment_data": 'JSON'} )
+raw_games_data.to_sql('raw_games_data', conn, if_exists="replace", dtype={"games_data": 'JSON'} )
+
+#%%
+
+games
+
+#=========================================================FUCNTIONing CODE===========================================================================================================================
+#%% validate table creation
+
+cn.execute("SELECT name from sqlite_master where type ='table';")
+print(cn.fetchall())
+
+#%%
+
+
+#%%
+print(game2["match_date"])
+print(game2["match_data"])
+
+
+#%%
+cn.execute(f"INSERT INTO games VALUES (2, '{game1['match_date']}', 'hi')")
+#%%
+data1 = game2['match_data']
+json_data1 = json.dumps(data1)
+binary_data1 = bytes(json_data1, 'utf-8')
+
+cn.execute("INSERT INTO games (match_data) VALUES (?)", (json_data1,))
+
+#%%
+#%%
+
+data1 = game2['match_data']
+json_data1 = json.dumps(data1)
+binary_data1 = bytes(json_data1, 'utf-8')
+
+data2 = game3['match_data']
+json_data2 = json.dumps(data2)
+binary_data2 = bytes(json_data2, 'utf-8')
+
+
+input = [(5, game1['match_date'], json_data1),
+         (6, game2['match_date'], json_data2)
+         ]
+cn.executemany("INSERT INTO games VALUES (?,?,?)", input)
+
+#%%
+
+cn.execute("SELECT * FROM games;")
+print(cn.fetchall())
+
+#%%
+conn.commit()
+cn.close()
+conn.close()
