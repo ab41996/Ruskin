@@ -485,6 +485,7 @@ def get_payments(player):
     match_fees = games.filter(regex=f'{player}.f$|date|opponent').fillna(0)
     print(cash_payments)
     print(match_fees)
+    return cash_payments.to_json(orient='records')
 
 #%% get payments for a playuer
 get_payments(players["g"])
@@ -514,56 +515,74 @@ raw_games_data.to_sql('raw_games_data', conn, if_exists="replace", dtype={"games
 raw_payment_data.to_sql('raw_payments_data', conn, if_exists="replace", dtype={"payment_data": 'JSON'} )
 raw_games_data.to_sql('raw_games_data', conn, if_exists="replace", dtype={"games_data": 'JSON'} )
 
+#%% Generate FastAPI Server
+from fastapi import FastAPI, status
+from fastapi.params import Body
+from fastapi.responses import JSONResponse, PlainTextResponse
 #%%
+app = FastAPI()
 
-games
+#%% create home page endpoint
+@app.get('/', response_class=PlainTextResponse)
+def home():
+    return "Welcome to Ruskin Park Rovers"
+
+#%% create get_payments endpoint
+@app.get('/payments/{player}', response_class=JSONResponse)
+def show_payments(player):
+    payments = get_payments(players[f"{player}"])
+    return payments
+
+#%% run server
+# get_payments(players["g"])
+
 
 #=========================================================FUCNTIONing CODE===========================================================================================================================
 #%% validate table creation
 
-cn.execute("SELECT name from sqlite_master where type ='table';")
-print(cn.fetchall())
+# cn.execute("SELECT name from sqlite_master where type ='table';")
+# print(cn.fetchall())
 
-#%%
-
-
-#%%
-print(game2["match_date"])
-print(game2["match_data"])
+# #%%
 
 
-#%%
-cn.execute(f"INSERT INTO games VALUES (2, '{game1['match_date']}', 'hi')")
-#%%
-data1 = game2['match_data']
-json_data1 = json.dumps(data1)
-binary_data1 = bytes(json_data1, 'utf-8')
-
-cn.execute("INSERT INTO games (match_data) VALUES (?)", (json_data1,))
-
-#%%
-#%%
-
-data1 = game2['match_data']
-json_data1 = json.dumps(data1)
-binary_data1 = bytes(json_data1, 'utf-8')
-
-data2 = game3['match_data']
-json_data2 = json.dumps(data2)
-binary_data2 = bytes(json_data2, 'utf-8')
+# #%%
+# print(game2["match_date"])
+# print(game2["match_data"])
 
 
-input = [(5, game1['match_date'], json_data1),
-         (6, game2['match_date'], json_data2)
-         ]
-cn.executemany("INSERT INTO games VALUES (?,?,?)", input)
+# #%%
+# cn.execute(f"INSERT INTO games VALUES (2, '{game1['match_date']}', 'hi')")
+# #%%
+# data1 = game2['match_data']
+# json_data1 = json.dumps(data1)
+# binary_data1 = bytes(json_data1, 'utf-8')
 
-#%%
+# cn.execute("INSERT INTO games (match_data) VALUES (?)", (json_data1,))
 
-cn.execute("SELECT * FROM games;")
-print(cn.fetchall())
+# #%%
+# #%%
 
-#%%
-conn.commit()
-cn.close()
-conn.close()
+# data1 = game2['match_data']
+# json_data1 = json.dumps(data1)
+# binary_data1 = bytes(json_data1, 'utf-8')
+
+# data2 = game3['match_data']
+# json_data2 = json.dumps(data2)
+# binary_data2 = bytes(json_data2, 'utf-8')
+
+
+# input = [(5, game1['match_date'], json_data1),
+#          (6, game2['match_date'], json_data2)
+#          ]
+# cn.executemany("INSERT INTO games VALUES (?,?,?)", input)
+
+# #%%
+
+# cn.execute("SELECT * FROM games;")
+# print(cn.fetchall())
+
+# #%%
+# conn.commit()
+# cn.close()
+# conn.close()
