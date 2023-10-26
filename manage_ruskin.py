@@ -12,6 +12,15 @@ THINGS TO DO:
 - Add extras such as potential kits etc
 - Add G mase extras and sign up fee for start of season
 - Work out how to reconcile the balances
+
+
+PROCESS FOR MOVING TO DB AND FAST API:
+- Raw data kept in database
+- New entries added to database
+- Read data using pandas
+- Use FastAPI to present data
+- This can all be done by a jupyter notebook
+- https://www.youtube.com/watch?v=qNVsQ4R9Lsg
 """
 
 
