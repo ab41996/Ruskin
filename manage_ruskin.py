@@ -1,4 +1,5 @@
 #%%
+from ctypes import Union
 import sqlite3 as db
 import pandas as pd
 import numpy as np
@@ -12,6 +13,7 @@ THINGS TO DO:
 - Add extras such as potential kits etc
 - Add G mase extras and sign up fee for start of season
 - Work out how to reconcile the balances
+- add typing from python lessons to improve coding safety
 
 
 PROCESS FOR MOVING TO DB AND FAST API:
@@ -476,16 +478,15 @@ def generate_balances():
     player_balances = player_balances.merge(player_match_fee_totals,on='player', how='outer').fillna(0)
     player_balances['balance'] = player_balances['amount_from']-player_balances['amount_to']-player_balances['match_fees']
     print(player_balances)
+    return player_balances
 
 # %% Define get payments 
-def get_payments(player):
-    global payments
-
-    cash_payments = payments[(payments['from']==player)|(payments['to']==player)]
-    match_fees = games.filter(regex=f'{player}.f$|date|opponent').fillna(0)
+def get_payments(player) -> tuple:
+    cash_payments = payments[(payments['from']==player)|(payments['to']==player)].to_json()
+    match_fees = games.filter(regex=f'{player}.f$|date|opponent').fillna(0).to_json()
     print(cash_payments)
     print(match_fees)
-    return cash_payments.to_json(orient='records')
+    return cash_payments, match_fees
 
 #%% get payments for a playuer
 get_payments(players["g"])
@@ -519,22 +520,40 @@ raw_games_data.to_sql('raw_games_data', conn, if_exists="replace", dtype={"games
 from fastapi import FastAPI, status
 from fastapi.params import Body
 from fastapi.responses import JSONResponse, PlainTextResponse
+from pydantic import BaseModel
 #%%
 app = FastAPI()
+
+#%% Define some classes
+
+class User(BaseModel):
+    name: str
+
+class Payments(BaseModel): #Add user mode to this somehow
+    cash_payments: str
+    match_fees: str
+    
+
 
 #%% create home page endpoint
 @app.get('/', response_class=PlainTextResponse)
 def home():
     return "Welcome to Ruskin Park Rovers"
 
-#%% create get_payments endpoint
+#%% create get_payments endpoint PYDANTIC WAY?
+# @app.get('/payments/{player}', response_class=Payments)
+# def show_payments(player): # type: ignore
+#     cash_payments, match_fees = get_payments(players[f"{player}"])
+#     payment = Payments(cash_payments=cash_payments, match_fees=match_fees)
+#     return payment
+
+#%% Create get_payments endpoint
 @app.get('/payments/{player}', response_class=JSONResponse)
 def show_payments(player):
-    payments = get_payments(players[f"{player}"])
-    return payments
+    cash_payments, match_fees = get_payments(players[f"{player}"])
+    return {"Cash Payment": cash_payments, "Match Fees": match_fees}
 
-#%% run server
-# get_payments(players["g"])
+#%% create generate balances endpoint
 
 
 #=========================================================FUCNTIONing CODE===========================================================================================================================
