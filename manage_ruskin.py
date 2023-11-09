@@ -398,6 +398,26 @@ create_game("2023-10-24",
              players["dec"]:     {"ap":1, "g":1,"a":0, "y":1}
                   })
 
+create_game("2023-11-08",
+            "League",
+            "HP Finchely",
+            [1,2],
+            players["sups"],
+            {
+             players["anand"]:   {"ap":1, "g":0,"a":1, "y": 1},
+             players["sups"]:    {"ap":1, "g":0,"a":0},
+             players["g"]:  {"ap":0.7, "g":0,"a":1, "y":0},
+             players["bean"]:    {"ap":1, "g":0,"a":0, "y":0},
+             players["stirl"]:    {"ap":0.5, "g":1,"a":0},
+             players["roks"]:   {"ap":1, "g":0,"a":0},
+             players["boobs"]:     {"ap":1, "g":1,"a":0},
+             players["mk"]:    {"ap":0.5, "g":0,"a":0},
+             players["suds"]:    {"ap":1, "g":0,"a":0},
+             players["dec"]:     {"ap":1, "g":1,"a":0},
+             players["andy"]:     {"ap":1, "g":1,"a":0, "y":1},
+             players["alex h"]:     {"ap":1, "g":1,"a":0}
+                  })
+
                 
 #%% ACTUAL PAYMENT SUBMISSIONS BELOW
 
@@ -449,6 +469,15 @@ create_payment("2023-10-17", players["hunter"], players["anand"], 32, "top-up")
 create_payment("2023-10-17", players["alex h"], players["anand"], 55, "top-up")
 create_payment("2023-10-19", players["anand"], players["ruskin"], 100, "INVOICE(16/10/23): pitch fee")
 create_payment("2023-10-19", players["anand"], players["ext"], 24, "fines")
+create_payment("2023-10-27", players["sups"], players["anand"], 50, "top-up")
+create_payment("2023-11-01", players["suds"], players["anand"], 50, "top-up")
+create_payment("2023-11-01", players["alex h"], players["anand"], 50, "top-up")
+create_payment("2023-11-02", players["anand"], players["sups"], 50, "returning money")
+create_payment("2023-11-03", players["stirl"], players["anand"], 30, "top-up")
+create_payment("2023-11-03", players["andy"], players["anand"], 50, "top-up")
+create_payment("2023-11-03", players["roks"], players["anand"], 100, "top-up")
+create_payment("2023-11-03", players["bean"], players["anand"], 15, "top-up")
+create_payment("2023-11-03", players["benj"], players["anand"], 50, "top-up")
 
 
 
