@@ -286,8 +286,8 @@ create_game("2023-09-05",
             [4,3],
             players["duz"],
             {
-             players["stokes"]: {"ap":1, "g":0,"a":0},
-             players["charlie"]: {"ap":1, "g":0,"a":0, "y":1},
+             players["stokes"]: {"ap":1,    "g":0,"a":0},
+             players["charlie"]: {"ap":1,   "g":0,"a":0, "y":1},
              players["luke"]: {"ap":1, "g":0,"a":0},
              players["harley"]: {"ap":0.8, "g":0,"a":0, "sb":1},
              players["boobs"]: {"ap":0.8, "g":0,"a":0},             
@@ -366,17 +366,17 @@ create_game("2023-10-10",
             [2,1],
             players["anand"],
             {
-             players["alex h"]:  {"ap":1, "g":0,"a":0},
-             players["anand"]:   {"ap":1, "g":0,"a":1},
-             players["sups"]:    {"ap":1, "g":1,"a":0, "m":1},
+             players["alex h"]:  {"ap":1,   "g":0,"a":0},
+             players["anand"]:   {"ap":1,   "g":0,"a":1},
+             players["sups"]:    {"ap":1,   "g":1,"a":0, "m":1},
              players["harley"]:  {"ap":0.7, "g":0,"a":0},
-             players["fred"]:    {"ap":1, "g":0,"a":0},
-             players["roks"]:    {"ap":1, "g":1,"a":0},
-             players["boobs"]:   {"ap":1, "g":0,"a":0},
-             players["duz"]:     {"ap":1, "g":0,"a":1},
-             players["bean"]:    {"ap":1, "g":0,"a":0},
-             players["suds"]:    {"ap":1, "g":0,"a":0},
-             players["dec"]:     {"ap":1, "g":1,"a":0, "y":1},
+             players["fred"]:    {"ap":1,   "g":0,"a":0},
+             players["roks"]:    {"ap":1,   "g":0,"a":0},
+             players["boobs"]:   {"ap":1,   "g":0,"a":0},
+             players["duz"]:     {"ap":1,   "g":0,"a":1},
+             players["bean"]:    {"ap":1,   "g":0,"a":0},
+             players["suds"]:    {"ap":1,   "g":0,"a":0},
+             players["dec"]:     {"ap":1,   "g":1,"a":0, "y":1},
              players["ben s"]:   {"ap":0.5, "g":0,"a":0, "y":1}
                   })
 
@@ -386,16 +386,16 @@ create_game("2023-10-24",
             [2,8],
             players["sups"],
             {
-             players["anand"]:   {"ap":1, "g":0,"a":1},
-             players["sups"]:    {"ap":1, "g":1,"a":0},
-             players["g"]:  {"ap":0.7, "g":0,"a":0, "y":1},
-             players["benj"]:    {"ap":1, "g":0,"a":0, "y":1},
-             players["stirl"]:    {"ap":1, "g":1,"a":0, "y":1, "sb":1},
-             players["roks"]:   {"ap":1, "g":0,"a":0},
-             players["duz"]:     {"ap":1, "g":0,"a":1},
-             players["mk"]:    {"ap":1, "g":0,"a":0},
-             players["suds"]:    {"ap":1, "g":0,"a":0},
-             players["dec"]:     {"ap":1, "g":1,"a":0, "y":1}
+             players["anand"]:      {"ap":1,    "g":0},
+             players["sups"]:       {"ap":1,    "g":0,  "a":0},
+             players["g"]:          {"ap":0.7,  "g":0,  "a":0, "y":1},
+             players["benj"]:       {"ap":1,    "g":0,  "a":0, "y":1},
+             players["stirl"]:      {"ap":1,    "g":1,  "a":0, "y":1, "sb":1},
+             players["roks"]:       {"ap":1,    "g":0,  "a":0},
+             players["duz"]:        {"ap":1,    "g":0,  "a":1},
+             players["mk"]:         {"ap":1,    "g":0,  "a":0},
+             players["suds"]:       {"ap":1,    "g":0,  "a":0},
+             players["dec"]:        {"ap":1,    "g":1,  "a":0, "y":1}
                   })
 
 create_game("2023-11-08",
@@ -404,18 +404,39 @@ create_game("2023-11-08",
             [1,2],
             players["sups"],
             {
-             players["anand"]:   {"ap":1, "g":0,"a":1, "y": 1},
-             players["sups"]:    {"ap":1, "g":0,"a":0},
-             players["g"]:  {"ap":0.7, "g":0,"a":1, "y":0},
-             players["bean"]:    {"ap":1, "g":0,"a":0, "y":0},
-             players["stirl"]:    {"ap":0.5, "g":1,"a":0},
-             players["roks"]:   {"ap":1, "g":0,"a":0},
-             players["boobs"]:     {"ap":1, "g":1,"a":0},
-             players["mk"]:    {"ap":0.5, "g":0,"a":0},
-             players["suds"]:    {"ap":1, "g":0,"a":0},
-             players["dec"]:     {"ap":1, "g":1,"a":0},
-             players["andy"]:     {"ap":1, "g":1,"a":0, "y":1},
-             players["alex h"]:     {"ap":1, "g":1,"a":0}
+             players["anand"]:      {"ap":1,    "g":0,          "y": 1},
+             players["sups"]:       {"ap":1,    "g":0,  "a":0},
+             players["g"]:          {"ap":0.7,  "g":0,  "a":1, "y":0},
+             players["bean"]:       {"ap":1,    "g":0,  "a":0, "y":0},
+             players["stirl"]:      {"ap":0.5,  "g":0,  "a":0},
+             players["roks"]:       {"ap":1,    "g":0,  "a":0},
+             players["boobs"]:      {"ap":1,    "g":1,  "a":0},
+             players["mk"]:         {"ap":0.5,  "g":0,  "a":0},
+             players["suds"]:       {"ap":1,    "g":0,  "a":0},
+             players["dec"]:        {"ap":1,    "g":0,  "a":0},
+             players["andy"]:       {"ap":1,    "g":0,  "a":0, "y":1},
+             players["alex h"]:     {"ap":1,    "g":0,  "a":0}
+                  })
+
+create_game("2023-11-15",
+            "League",
+            "Drayton",
+            [3,2],
+            players["sups"],
+            {
+             players["anand"]:      {"ap":1,    "g":0},
+             players["sups"]:       {"ap":1,    "g":0,  "a":1},
+             players["g"]:          {"ap":1,    "g":1,  "a":2, "y":0},
+             players["bean"]:       {"ap":1,    "g":0,  "a":0, "y":0},
+             players["benj"]:       {"ap":0.3,  "g":0,  "a":0},
+             players["mk"]:         {"ap":0.5,  "g":0,  "a":0},
+             players["boobs"]:      {"ap":1,    "g":0,  "a":0},
+             players["fred"]:       {"ap":1,    "g":0,  "a":0},
+             players["suds"]:       {"ap":1,    "g":0,  "a":0, "y": 1},
+             players["dec"]:        {"ap":1,    "g":0,  "a":0},
+             players["andy"]:       {"ap":1,    "g":2,  "a":0},
+             players["alex h"]:     {"ap":1,    "g":0,  "a":0},
+             players["toby"]:       {"ap":0.5,  "g":0,  "a":0},
                   })
 
                 
@@ -474,11 +495,30 @@ create_payment("2023-11-01", players["suds"], players["anand"], 50, "top-up")
 create_payment("2023-11-01", players["alex h"], players["anand"], 50, "top-up")
 create_payment("2023-11-02", players["anand"], players["sups"], 50, "returning money")
 create_payment("2023-11-03", players["stirl"], players["anand"], 30, "top-up")
-create_payment("2023-11-03", players["andy"], players["anand"], 50, "top-up")
-create_payment("2023-11-03", players["roks"], players["anand"], 100, "top-up")
-create_payment("2023-11-03", players["bean"], players["anand"], 15, "top-up")
-create_payment("2023-11-03", players["benj"], players["anand"], 50, "top-up")
-
+create_payment("2023-11-06", players["andy"], players["anand"], 50, "top-up")
+create_payment("2023-11-07", players["roks"], players["anand"], 100, "top-up")
+create_payment("2023-11-08", players["bean"], players["anand"], 15, "top-up")
+create_payment("2023-11-09", players["benj"], players["anand"], 50, "top-up")
+create_payment("2023-11-09", players["dec"], players["sups"], 50, "match fees")
+create_payment("2023-11-16", players["bean"], players["anand"], 15, "top-up")
+create_payment("2023-11-16", players["anand"], players["ruskin"], 240, "INVOICE(06/11/23): pitch fee")
+create_payment("2023-11-16", players["anand"], players["ext"], 24, "fine")
+custom_bill("2023-11-09", players["roks"], 
+                            [players['andy'],
+                            players['roks'],
+                            players['boobs'],
+                            players['g'],
+                            players['suds'],
+                            players['stirl'],
+                            players['duz'],
+                            players['dec'],
+                            players['fred'],
+                            players['bean'],
+                            players['alex h'],
+                            players['benj'],
+                            players['mk'],
+                            players['harley'],
+                            ], 38, True, "New Socks and Shorts")
 
 
 #%% Definig generate balances function
@@ -518,7 +558,7 @@ def get_payments(player) -> tuple:
     return cash_payments, match_fees
 
 #%% get payments for a playuer
-get_payments(players["g"])
+get_payments(players["toby"])
 
 # %% generate balances and print
 generate_balances()
