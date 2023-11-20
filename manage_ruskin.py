@@ -499,10 +499,6 @@ create_payment("2023-11-06", players["andy"], players["anand"], 50, "top-up")
 create_payment("2023-11-07", players["roks"], players["anand"], 100, "top-up")
 create_payment("2023-11-08", players["bean"], players["anand"], 15, "top-up")
 create_payment("2023-11-09", players["benj"], players["anand"], 50, "top-up")
-create_payment("2023-11-09", players["dec"], players["sups"], 50, "match fees")
-create_payment("2023-11-16", players["bean"], players["anand"], 15, "top-up")
-create_payment("2023-11-16", players["anand"], players["ruskin"], 240, "INVOICE(06/11/23): pitch fee")
-create_payment("2023-11-16", players["anand"], players["ext"], 24, "fine")
 custom_bill("2023-11-09", players["roks"], 
                             [players['andy'],
                             players['roks'],
@@ -519,6 +515,11 @@ custom_bill("2023-11-09", players["roks"],
                             players['mk'],
                             players['harley'],
                             ], 38, True, "New Socks and Shorts")
+create_payment("2023-11-09", players["dec"], players["sups"], 50, "match fees")
+create_payment("2023-11-16", players["bean"], players["anand"], 15, "top-up")
+create_payment("2023-11-16", players["anand"], players["ruskin"], 240, "INVOICE(06/11/23): pitch fee")
+create_payment("2023-11-16", players["anand"], players["ext"], 24, "fine")
+create_payment("2023-11-18", players["anand"], players["sups"], 50, "payback")
 
 
 #%% Definig generate balances function
@@ -558,7 +559,7 @@ def get_payments(player) -> tuple:
     return cash_payments, match_fees
 
 #%% get payments for a playuer
-get_payments(players["toby"])
+get_payments(players["sups"])
 
 # %% generate balances and print
 generate_balances()
