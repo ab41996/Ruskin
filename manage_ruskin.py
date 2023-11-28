@@ -514,12 +514,37 @@ custom_bill("2023-11-09", players["roks"],
                             players['benj'],
                             players['mk'],
                             players['harley'],
+                            players['anand'],
+                            players['sups'],
                             ], 38, True, "New Socks and Shorts")
 create_payment("2023-11-09", players["dec"], players["sups"], 50, "match fees")
 create_payment("2023-11-16", players["bean"], players["anand"], 15, "top-up")
 create_payment("2023-11-16", players["anand"], players["ruskin"], 240, "INVOICE(06/11/23): pitch fee")
 create_payment("2023-11-16", players["anand"], players["ext"], 24, "fine")
 create_payment("2023-11-18", players["anand"], players["sups"], 50, "payback")
+create_payment("2023-11-20", players["duz"], players["anand"], 50, "top-up")
+create_payment("2023-11-20", players["g"], players["anand"], 50, "top-up")
+create_payment("2023-11-21", players["letch"], players["anand"], 4, "top-up")
+create_payment("2023-11-27", players["sups"], players["anand"], 50, "top-up")
+custom_bill("2023-11-20", players["anand"], 
+                            [players['andy'],
+                            players['roks'],
+                            players['boobs'],
+                            players['g'],
+                            players['suds'],
+                            players['stirl'],
+                            players['duz'],
+                            players['dec'],
+                            players['fred'],
+                            players['bean'],
+                            players['alex h'],
+                            players['benj'],
+                            players['mk'],
+                            players['harley'],
+                            players['anand'],
+                            players['sups'],
+                            ], 10, True, "Club Fine - Missed Match Report")
+create_payment("2023-11-28", players["anand"], players["ruskin"], 120, "INVOICE(20/11/23): pitch fee")
 
 
 #%% Definig generate balances function
@@ -559,7 +584,7 @@ def get_payments(player) -> tuple:
     return cash_payments, match_fees
 
 #%% get payments for a playuer
-get_payments(players["sups"])
+get_payments(players["dec"])
 
 # %% generate balances and print
 generate_balances()
