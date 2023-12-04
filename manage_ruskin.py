@@ -406,8 +406,8 @@ create_game("2023-11-08",
             {
              players["anand"]:      {"ap":1,    "g":0,          "y": 1},
              players["sups"]:       {"ap":1,    "g":0,  "a":0},
-             players["g"]:          {"ap":0.7,  "g":0,  "a":1, "y":0},
-             players["bean"]:       {"ap":1,    "g":0,  "a":0, "y":0},
+             players["g"]:          {"ap":0.7,  "g":0,  "a":1},
+             players["bean"]:       {"ap":1,    "g":0,  "a":0},
              players["stirl"]:      {"ap":0.5,  "g":0,  "a":0},
              players["roks"]:       {"ap":1,    "g":0,  "a":0},
              players["boobs"]:      {"ap":1,    "g":1,  "a":0},
@@ -426,8 +426,8 @@ create_game("2023-11-15",
             {
              players["anand"]:      {"ap":1,    "g":0},
              players["sups"]:       {"ap":1,    "g":0,  "a":1},
-             players["g"]:          {"ap":1,    "g":1,  "a":2, "y":0},
-             players["bean"]:       {"ap":1,    "g":0,  "a":0, "y":0},
+             players["g"]:          {"ap":1,    "g":1,  "a":2},
+             players["bean"]:       {"ap":1,    "g":0,  "a":0},
              players["benj"]:       {"ap":0.3,  "g":0,  "a":0},
              players["mk"]:         {"ap":0.5,  "g":0,  "a":0},
              players["boobs"]:      {"ap":1,    "g":0,  "a":0},
@@ -437,6 +437,28 @@ create_game("2023-11-15",
              players["andy"]:       {"ap":1,    "g":2,  "a":0},
              players["alex h"]:     {"ap":1,    "g":0,  "a":0},
              players["toby"]:       {"ap":0.5,  "g":0,  "a":0},
+             players["duz"]:        {"ap":0.6,  "g":0,  "a":0},
+                  })
+
+create_game("2023-11-29",
+            "League",
+            "CYP",
+            [5,2],
+            players["duz"],
+            {
+             players["anand"]:      {"ap":1,    "g":0,  "a":1},
+             players["sups"]:       {"ap":1,    "g":0,  "a":1},
+             players["bean"]:       {"ap":0.7,  "g":0,  "a":0},
+             players["benj"]:       {"ap":0.3,  "g":0,  "a":0},
+             players["mk"]:         {"ap":1,    "g":1,  "a":1},
+             players["boobs"]:      {"ap":0.8,   "g":0,  "a":1},
+             players["fred"]:       {"ap":1,    "g":0,  "a":0},
+             players["suds"]:       {"ap":1,    "g":0,  "a":0},
+             players["dec"]:        {"ap":1,    "g":2,  "a":0},
+             players["andy"]:       {"ap":1,    "g":2,  "a":1, "y": 1, "m": 1},
+             players["alex h"]:     {"ap":1,    "g":0,  "a":0},
+             players["toby"]:       {"ap":0.4,  "g":0,  "a":0},
+             players["duz"]:       {"ap":0.8,  "g":0,  "a":0},
                   })
 
                 
@@ -545,6 +567,10 @@ custom_bill("2023-11-20", players["anand"],
                             players['sups'],
                             ], 10, True, "Club Fine - Missed Match Report")
 create_payment("2023-11-28", players["anand"], players["ruskin"], 120, "INVOICE(20/11/23): pitch fee")
+create_payment("2023-12-01", players["alex h"], players["anand"], 50, "top-up")
+create_payment("2023-12-01", players["suds"], players["anand"], 50, "top-up")
+create_payment("2023-12-01", players["anand"], players["ext"], 50, "fines CYP 1 yellow")
+
 
 
 #%% Definig generate balances function
