@@ -569,7 +569,8 @@ custom_bill("2023-11-20", players["anand"],
 create_payment("2023-11-28", players["anand"], players["ruskin"], 120, "INVOICE(20/11/23): pitch fee")
 create_payment("2023-12-01", players["alex h"], players["anand"], 50, "top-up")
 create_payment("2023-12-01", players["suds"], players["anand"], 50, "top-up")
-create_payment("2023-12-01", players["anand"], players["ext"], 50, "fines CYP 1 yellow")
+create_payment("2023-12-04", players["anand"], players["ext"], 12, "fines CYP 1 yellow")
+create_payment("2023-12-04", players["dec"], players["sups"], 100, "top-up")
 
 
 
