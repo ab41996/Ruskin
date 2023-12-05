@@ -434,7 +434,7 @@ create_game("2023-11-15",
              players["fred"]:       {"ap":1,    "g":0,  "a":0},
              players["suds"]:       {"ap":1,    "g":0,  "a":0, "y": 1},
              players["dec"]:        {"ap":1,    "g":0,  "a":0},
-             players["andy"]:       {"ap":1,    "g":2,  "a":0},
+             players["andy"]:       {"ap":1,    "g":2,  "a":0, "m":1},
              players["alex h"]:     {"ap":1,    "g":0,  "a":0},
              players["toby"]:       {"ap":0.5,  "g":0,  "a":0},
              players["duz"]:        {"ap":0.6,  "g":0,  "a":0},
@@ -565,12 +565,32 @@ custom_bill("2023-11-20", players["anand"],
                             players['harley'],
                             players['anand'],
                             players['sups'],
-                            ], 10, True, "Club Fine - Missed Match Report")
+                            ], 10, True, "Club Fine - Missed Match Report[PART OF INVOICE]")
 create_payment("2023-11-28", players["anand"], players["ruskin"], 120, "INVOICE(20/11/23): pitch fee")
 create_payment("2023-12-01", players["alex h"], players["anand"], 50, "top-up")
 create_payment("2023-12-01", players["suds"], players["anand"], 50, "top-up")
 create_payment("2023-12-04", players["anand"], players["ext"], 12, "fines CYP 1 yellow")
 create_payment("2023-12-04", players["dec"], players["sups"], 100, "top-up")
+create_payment("2023-12-05", players["sups"], players["anand"], 100, "top-up")
+custom_bill("2023-12-05", players["anand"], 
+                            [players['andy'],
+                            players['roks'],
+                            players['boobs'],
+                            players['g'],
+                            players['suds'],
+                            players['stirl'],
+                            players['duz'],
+                            players['dec'],
+                            players['fred'],
+                            players['bean'],
+                            players['alex h'],
+                            players['benj'],
+                            players['mk'],
+                            players['harley'],
+                            players['anand'],
+                            players['sups'],
+                            ], 15, True, "Club Fine - Missed Match Report/Inappropriate dress[PART OF INVOICE]")
+create_payment("2023-12-05", players["anand"], players["ruskin"], 125, "INVOICE(04/12/23): pitch fee")
 
 
 
