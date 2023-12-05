@@ -590,7 +590,7 @@ custom_bill("2023-12-05", players["anand"],
                             players['anand'],
                             players['sups'],
                             ], 15, True, "Club Fine - Missed Match Report/Inappropriate dress[PART OF INVOICE]")
-create_payment("2023-12-05", players["anand"], players["ruskin"], 125, "INVOICE(04/12/23): pitch fee")
+create_payment("2023-12-05", players["anand"], players["ruskin"], 140, "INVOICE(04/12/23): pitch fee")
 
 
 
