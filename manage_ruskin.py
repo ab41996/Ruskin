@@ -461,6 +461,26 @@ create_game("2023-11-29",
              players["duz"]:       {"ap":0.8,  "g":0,  "a":0},
                   })
 
+create_game("2023-11-29", #ADD FINES
+            "Tom Keane",
+            "St. Johns Deaf",
+            [2,3],
+            players["sups"],
+            {
+             players["anand"]:      {"ap":1},
+             players["sups"]:       {"ap":1},
+             players["mk"]:         {"ap":1},
+             players["boobs"]:      {"ap":0.5, "a":1},
+             players["fred"]:       {"ap":1},
+             players["suds"]:       {"ap":1},
+             players["dec"]:        {"ap":1, "g":2,},
+             players["andy"]:       {"ap":1},
+             players["alex h"]:     {"ap":1},
+             players["toby"]:       {"ap":1},
+             players["duz"]:        {"ap":0.7},
+             players["g"]:          {"ap":1},
+                  })
+
                 
 #%% ACTUAL PAYMENT SUBMISSIONS BELOW
 
@@ -591,6 +611,7 @@ custom_bill("2023-12-05", players["anand"],
                             players['sups'],
                             ], 15, True, "Club Fine - Missed Match Report/Inappropriate dress[PART OF INVOICE]")
 create_payment("2023-12-05", players["anand"], players["ruskin"], 140, "INVOICE(04/12/23): pitch fee")
+create_payment("2023-12-06", players["fred"], players["anand"], 50, "top-up")
 
 
 
