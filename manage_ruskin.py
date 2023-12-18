@@ -461,7 +461,7 @@ create_game("2023-11-29",
              players["duz"]:       {"ap":0.8,  "g":0,  "a":0},
                   })
 
-create_game("2023-11-29", #ADD FINES
+create_game("2023-12-06", #Red Card Fred to be handled as a bill £50
             "Tom Keane",
             "St. Johns Deaf",
             [2,3],
@@ -473,12 +473,31 @@ create_game("2023-11-29", #ADD FINES
              players["boobs"]:      {"ap":0.5, "a":1},
              players["fred"]:       {"ap":1},
              players["suds"]:       {"ap":1},
-             players["dec"]:        {"ap":1, "g":2,},
-             players["andy"]:       {"ap":1},
+             players["dec"]:        {"ap":1, "g":2, "y":1},
+             players["andy"]:       {"ap":1, "y":1},
              players["alex h"]:     {"ap":1},
              players["toby"]:       {"ap":1},
              players["duz"]:        {"ap":0.7},
              players["g"]:          {"ap":1},
+                  })
+
+create_game("2023-11-29",
+            "League",
+            "London Internationale 1s",
+            [2,3],
+            players["sups"],
+            {
+             players["anand"]:      {"ap":1,                "y":1},
+             players["sups"]:       {"ap":1,        "a":1},
+             players["mk"]:         {"ap":1, "g":1, "a":2},
+             players["roks"]:       {"ap":1},
+             players["benj"]:       {"ap":1,        "a":1},
+             players["suds"]:       {"ap":1},
+             players["dec"]:        {"ap":1, "g":2},
+             players["andy"]:       {"ap":1,                "y":1},
+             players["alex h"]:     {"ap":1},
+             players["duz"]:        {"ap":1},
+             players["g"]:          {"ap":1, "g":4, "a":1}
                   })
 
                 
