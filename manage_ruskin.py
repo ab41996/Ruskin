@@ -461,7 +461,7 @@ create_game("2023-11-29",
              players["duz"]:       {"ap":0.8,  "g":0,  "a":0},
                   })
 
-create_game("2023-12-06", #Red Card Fred to be handled as a bill £50
+create_game("2023-12-06", #Red Card Fred to be handled as a bill £35 + £15
             "Tom Keane",
             "St. Johns Deaf",
             [2,3],
@@ -481,10 +481,10 @@ create_game("2023-12-06", #Red Card Fred to be handled as a bill £50
              players["g"]:          {"ap":1},
                   })
 
-create_game("2023-11-29",
+create_game("2023-12-13",
             "League",
             "London Internationale 1s",
-            [2,3],
+            [7,2],
             players["sups"],
             {
              players["anand"]:      {"ap":1,                "y":1},
@@ -630,8 +630,29 @@ custom_bill("2023-12-05", players["anand"],
                             players['sups'],
                             ], 15, True, "Club Fine - Missed Match Report/Inappropriate dress[PART OF INVOICE]")
 create_payment("2023-12-05", players["anand"], players["ruskin"], 140, "INVOICE(04/12/23): pitch fee")
-create_payment("2023-12-06", players["fred"], players["anand"], 50, "top-up")
-
+create_payment("2023-12-05", players["fred"], players["anand"], 50, "top-up")
+create_payment("2023-12-11", players["anand"], players["sups"], 50, "match repay")
+custom_bill("2023-12-20", players["anand"], 
+                            [players["anand"],
+                            players["sups"],
+                            players["mk"],
+                            players["boobs"],
+                            players["fred"],
+                            players["suds"],
+                            players["dec"],
+                            players["andy"],
+                            players["alex h"],
+                            players["toby"],
+                            players["duz"],
+                            players["g"]
+                            ], 35, True, "Fred Red Card vs St. Johns")
+custom_bill("2023-12-20", players["anand"], 
+                            [
+                            players["fred"]
+                            ], 15, True, "Fred Red Card vs St. Johns. Misconduct claim")
+create_payment("2023-12-20", players["anand"], players["ext"], 83+15, "fines")
+create_payment("2023-12-20", players["toby"], players["sups"], 35, "top-up")
+create_payment("2023-12-20", players["anand"], players["sups"], 15, "repay")
 
 
 #%% Definig generate balances function
