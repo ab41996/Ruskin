@@ -653,6 +653,12 @@ custom_bill("2023-12-20", players["anand"],
 create_payment("2023-12-20", players["anand"], players["ext"], 83+15, "fines")
 create_payment("2023-12-20", players["toby"], players["sups"], 35, "top-up")
 create_payment("2023-12-20", players["anand"], players["sups"], 15, "repay")
+create_payment("2023-12-20", players["boobs"], players["anand"], 50, "top-up")
+create_payment("2023-12-20", players["benj"], players["anand"], 50, "top-up")
+create_payment("2023-12-27", players["sups"], players["anand"], 50, "top-up")
+create_payment("2024-01-02", players["suds"], players["anand"], 50, "top-up")
+create_payment("2024-01-02", players["alex h"], players["anand"], 50, "top-up")
+create_payment("2024-01-08", players["anand"], players["ruskin"], 150, "pitches")
 
 
 #%% Definig generate balances function
