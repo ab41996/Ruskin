@@ -138,7 +138,8 @@ players = {     "ext": "External Payments",
                 'stokes': "Jake Stokes",
                 'charlie': "Charlie Hymas",
                 'luke': "Luke Nutt",
-                'ben s': "Ben Safari"}
+                'ben s': "Ben Safari",
+                'nourdine': "Nourdine"}
 
 
 #%% Generate create_payment function and raw_payment_data df
@@ -498,6 +499,27 @@ create_game("2023-12-13",
              players["alex h"]:     {"ap":1},
              players["duz"]:        {"ap":1},
              players["g"]:          {"ap":1, "g":4, "a":1}
+                  })
+
+create_game("2023-01-11",
+            "League",
+            "Streatham",
+            [3,4],
+            players["sups"],
+            {
+             players["anand"]:      {"ap":1},
+             players["sups"]:       {"ap":1,        "a":1},
+             players["hunter"]:     {"ap":1, "g":1, "y":1},
+             players["roks"]:       {"ap":0.3, "g":1, "a":1},
+             players["bean"]:       {"ap":1},
+             players["suds"]:       {"ap":1},
+             players["dec"]:        {"ap":1, "g":1, "a": 1},
+             players["fred"]:       {"ap":1},
+             players["alex h"]:     {"ap":1},
+             players["duz"]:        {"ap":1},
+             players["harley"]:     {"ap":0.3},
+             players["nourdine"]:   {"ap":0.5},
+             players["boobs"]:      {"ap":1}
                   })
 
                 
