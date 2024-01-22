@@ -501,7 +501,7 @@ create_game("2023-12-13",
              players["g"]:          {"ap":1, "g":4, "a":1}
                   })
 
-create_game("2023-01-11",
+create_game("2023-01-10",
             "League",
             "Streatham",
             [3,4],
@@ -520,6 +520,27 @@ create_game("2023-01-11",
              players["harley"]:     {"ap":0.3},
              players["nourdine"]:   {"ap":0.5},
              players["boobs"]:      {"ap":1}
+                  })
+
+create_game("2023-01-17",
+            "Cup",
+            "Streatham",
+            [9,3],
+            players["sups"],
+            {
+             players["sups"]:       {"ap":1},
+             players["hunter"]:     {"ap":1, "y":1},
+             players["g"]:          {"ap":1, "g":1},
+             players["bean"]:       {"ap":0.7},
+             players["suds"]:       {"ap":1},
+             players["dec"]:        {"ap":0.5, "g":6},
+             players["alex h"]:     {"ap":1},
+             players["duz"]:        {"ap":1},
+             players["toby"]:       {"ap":0.3},
+             players["stirl"]:      {"ap":1, "g":1},
+             players["boobs"]:      {"ap":1, "g":1},
+             players["mk"]:         {"ap":0.5},
+             players["benj"]:       {"ap":1}
                   })
 
                 
@@ -681,7 +702,11 @@ create_payment("2023-12-27", players["sups"], players["anand"], 50, "top-up")
 create_payment("2024-01-02", players["suds"], players["anand"], 50, "top-up")
 create_payment("2024-01-02", players["alex h"], players["anand"], 50, "top-up")
 create_payment("2024-01-08", players["anand"], players["ruskin"], 150, "pitches")
-
+custom_bill("2023-01-21", players["anand"], 
+                            [players["fred"]
+                            ], 35, True, "Fred Red Card vs St. Johns 2.0 Misconduct fee")
+create_payment("2023-01-22", players["fred"], players["anand"], 35, "red card top-up")
+create_payment("2023-01-22", players["anand"], players["ext"], 12, "streatham yellow card 47 fee - 35 custom bill for red card")
 
 #%% Definig generate balances function
 payments = pd.json_normalize(raw_payment_data["payment_data"]) # type: ignore
@@ -719,7 +744,7 @@ def get_payments(player) -> tuple:
     print(match_fees)
     return cash_payments, match_fees
 
-#%% get payments for a playuer
+#%% get payments for a player
 get_payments(players["dec"])
 
 # %% generate balances and print
