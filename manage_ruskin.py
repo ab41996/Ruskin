@@ -139,6 +139,7 @@ players = {     "ext": "External Payments",
                 'charlie': "Charlie Hymas",
                 'luke': "Luke Nutt",
                 'ben s': "Ben Safari",
+                'samad': "Samad",
                 'nourdine': "Nourdine"}
 
 
@@ -501,7 +502,7 @@ create_game("2023-12-13",
              players["g"]:          {"ap":1, "g":4, "a":1}
                   })
 
-create_game("2023-01-10",
+create_game("2024-01-10",
             "League",
             "Streatham",
             [3,4],
@@ -522,7 +523,7 @@ create_game("2023-01-10",
              players["boobs"]:      {"ap":1}
                   })
 
-create_game("2023-01-17",
+create_game("2024-01-17",
             "Cup",
             "Streatham",
             [9,3],
@@ -543,6 +544,25 @@ create_game("2023-01-17",
              players["benj"]:       {"ap":1}
                   })
 
+create_game("2023-01-30",
+            "League",
+            "St. Johns Deaf",
+            [6,3],
+            players["sups"],
+            {
+             players["sups"]:       {"ap":1, "y":1},
+             players["hunter"]:     {"ap":1, "g":1, "a":2},
+             players["g"]:          {"ap":1, "g":1},
+             players["bean"]:       {"ap":0.5,"g":1, "a":1, "y":1},
+             players["suds"]:       {"ap":1},
+             players["anand"]:      {"ap":1},
+             players["alex h"]:     {"ap":1},
+             players["duz"]:        {"ap":1},
+             players["stirl"]:      {"ap":1, "g":1, "a":1},
+             players["mk"]:         {"ap":1, "g":2},
+             players["samad"]:      {"ap":1},
+             players["benj"]:       {"ap":0.5}
+                  })
                 
 #%% ACTUAL PAYMENT SUBMISSIONS BELOW
 
@@ -707,6 +727,14 @@ custom_bill("2023-01-21", players["anand"],
                             ], 35, True, "Fred Red Card vs St. Johns 2.0 Misconduct fee")
 create_payment("2023-01-22", players["fred"], players["anand"], 35, "red card top-up")
 create_payment("2023-01-22", players["anand"], players["ext"], 12, "streatham yellow card 47 fee - 35 custom bill for red card")
+create_payment("2023-01-29", players["sups"], players["anand"], 50, "top-up")
+create_payment("2023-01-29", players["anand"], players["sups"], 100, "repay")
+create_payment("2023-01-29", players["bean"], players["anand"], 50, "top-up")
+create_payment("2023-02-01", players["alex h"], players["anand"], 50, "top-up")
+create_payment("2023-02-01", players["suds"], players["anand"], 50, "top-up")
+create_payment("2023-02-01", players["anand"], players["ext"], 36, "fines")
+create_payment("2023-02-01", players["anand"], players["ruskin"], 105, "match fees")
+
 
 #%% Definig generate balances function
 payments = pd.json_normalize(raw_payment_data["payment_data"]) # type: ignore
