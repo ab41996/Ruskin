@@ -140,6 +140,7 @@ players = {     "ext": "External Payments",
                 'luke': "Luke Nutt",
                 'ben s': "Ben Safari",
                 'samad': "Samad",
+                'holty': "Sam Holt",
                 'nourdine': "Nourdine"}
 
 
@@ -563,6 +564,26 @@ create_game("2023-01-30",
              players["samad"]:      {"ap":1},
              players["benj"]:       {"ap":0.5}
                   })
+
+create_game("2023-02-06",
+            "League",
+            "Aloysius",
+            [4,2],
+            players["sups"],
+            {
+             players["sups"]:       {"ap":1,},
+             players["g"]:          {"ap":1, "g":1, "a":1},
+             players["suds"]:       {"ap":1, "m":1},
+             players["anand"]:      {"ap":1},
+             players["alex h"]:     {"ap":1},
+             players["duz"]:        {"ap":1},
+             players["stirl"]:      {"ap":1, "a":2},
+             players["mk"]:         {"ap":1, "a":1},
+             players["benj"]:       {"ap":0.7},
+             players["dec"]:        {"ap":1, "g":3},
+             players["fred"]:        {"ap":1},
+             players["holty"]:      {"ap":0.3}
+                  })
                 
 #%% ACTUAL PAYMENT SUBMISSIONS BELOW
 
@@ -734,6 +755,8 @@ create_payment("2023-02-01", players["alex h"], players["anand"], 50, "top-up")
 create_payment("2023-02-01", players["suds"], players["anand"], 50, "top-up")
 create_payment("2023-02-01", players["anand"], players["ext"], 36, "fines")
 create_payment("2023-02-01", players["anand"], players["ruskin"], 105, "match fees")
+create_payment("2023-02-05", players["andy"], players["anand"], 23.1, "top-up")
+create_payment("2023-02-07", players["benj"], players["anand"], 50, "top-up")
 
 
 #%% Definig generate balances function
