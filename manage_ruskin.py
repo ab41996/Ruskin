@@ -565,6 +565,8 @@ create_game("2023-01-30",
              players["benj"]:       {"ap":0.5}
                   })
 
+#MK MATCH FEES DOWN TO £5 FROM HERE ON ADD TO CODE.
+
 create_game("2023-02-06",
             "League",
             "Aloysius",
@@ -584,6 +586,8 @@ create_game("2023-02-06",
              players["fred"]:        {"ap":1},
              players["holty"]:      {"ap":0.3}
                   })
+
+#CUP GAME BILLED AS PITCH FEE NEED TO ADD THIS.
                 
 #%% ACTUAL PAYMENT SUBMISSIONS BELOW
 
@@ -758,7 +762,7 @@ create_payment("2023-02-01", players["anand"], players["ruskin"], 105, "match fe
 create_payment("2023-02-05", players["andy"], players["anand"], 23.1, "top-up")
 create_payment("2023-02-07", players["benj"], players["anand"], 50, "top-up")
 
-
+#ADD ADHOC BILL FOR £8 FOR SUPS CASH WITHDRAWALS
 #%% Definig generate balances function
 payments = pd.json_normalize(raw_payment_data["payment_data"]) # type: ignore
 games = pd.json_normalize(raw_games_data["match_data"]) # type: ignore
