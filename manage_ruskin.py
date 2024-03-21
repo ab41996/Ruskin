@@ -596,19 +596,41 @@ create_game("2023-03-07",
             players["anand"],
             {
              players["alex h"]:     {"ap":1},
-             players["suds"]:       {"ap":1},
+             players["suds"]:       {"ap":1, "g":1},
              players["benj"]:       {"ap":0.75},
              players["anand"]:      {"ap":1},
              players["holty"]:      {"ap":1},
              players["samad"]:      {"ap":1},
 
-             players["sups"]:       {"ap":1},
+             players["sups"]:       {"ap":1, "y":1},
              players["boobs"]:      {"ap":0.75},
              players["g"]:          {"ap":0.5},
 
-             players["stirl"]:      {"ap":1},
-             players["mk"]:         {"ap":1},
-             players["dec"]:        {"ap":1}
+             players["stirl"]:      {"ap":1, "g":1},
+             players["mk"]:         {"ap":1, "g":1},
+             players["dec"]:        {"ap":1, "y":1, "g":1}
+                  })
+
+create_game("2023-03-20", #add yellow card fine
+            "Invitation Cup",
+            "Spicegun",
+            [3,1],
+            players["anand"],
+            {
+             players["alex h"]:     {"ap":1},
+             players["suds"]:       {"ap":1},
+             players["benj"]:       {"ap":0.5, "a":1},
+             players["anand"]:      {"ap":1},
+             players["fred"]:      {"ap":1},
+             players["samad"]:      {"ap":1, "g":1},
+
+             players["duz"]:        {"ap":1},
+             players["harley"]:     {"ap":0.5},
+             players["toby"]:       {"ap":1},
+
+             players["stirl"]:      {"ap":1, "g":1},
+             players["mk"]:         {"ap":1, "a":1},
+             players["dec"]:        {"ap":1, "g":1}
                   })
                 
 #%% ACTUAL PAYMENT SUBMISSIONS BELOW
@@ -805,6 +827,10 @@ custom_bill("2023-03-01", players["ruskin"],
                             players['sups'],
                             players['holty'],
                             ], pitch_fee, True, "Missed cup match due to team bailing[PART OF INVOICE]")
+create_payment("2023-03-20", players["anand"], players["ext"], 24, "fines")
+create_payment("2023-03-20", players["anand"], players["ruskin"], 188.55, "match fees")
+
+
 
 #ADD ADHOC BILL FOR £8 FOR SUPS CASH WITHDRAWALS
 #%% Definig generate balances function
