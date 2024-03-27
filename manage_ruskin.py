@@ -856,6 +856,7 @@ create_payment("2023-03-22", players["fred"], players["anand"], 50, "top-up")
 create_payment("2023-03-23", players["dec"], players["anand"], 50, "top-up")
 create_payment("2023-03-24", players["holty"], players["anand"], 30, "top-up")
 create_payment("2023-03-27", players["sups"], players["anand"], 50, "top-up")
+create_payment("2023-03-27", players["anand"], players["ext"], 36, "fines")
 
 
 
