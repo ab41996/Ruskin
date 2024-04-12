@@ -654,6 +654,28 @@ create_game("2023-03-26", #add yellows
              players["mk"]:         {"ap":1},
              players["dec"]:        {"ap":1}
                   })
+
+create_game("2023-04-26", #add yellows
+            "League",
+            "St. Johns",
+            [3,6],
+            players["anand"],
+            {
+             players["alex h"]:     {"ap":1},
+             players["holty"]:       {"ap":.25},
+             players["benj"]:       {"ap":1},
+             players["anand"]:      {"ap":1},
+             players["fred"]:      {"ap":1},
+             players["suds"]:      {"ap":1},
+
+             players["duz"]:        {"ap":.75},
+             players["sups"]:     {"ap":1},
+             players["toby"]:      {"ap":1, "g":1},
+
+             players["stirl"]:      {"ap":1,},
+             players["g"]:         {"ap":1, "g":1},
+             players["dec"]:        {"ap":1}
+                  })
                 
 #%% ACTUAL PAYMENT SUBMISSIONS BELOW
 
