@@ -545,7 +545,7 @@ create_game("2024-01-17",
              players["benj"]:       {"ap":1}
                   })
 
-create_game("2023-01-30",
+create_game("2024-01-30",
             "League",
             "St. Johns Deaf",
             [6,3],
@@ -565,9 +565,7 @@ create_game("2023-01-30",
              players["benj"]:       {"ap":0.5}
                   })
 
-#MK MATCH FEES DOWN TO £5 FROM HERE ON ADD TO CODE.
-
-create_game("2023-02-06",
+create_game("2024-02-06",
             "League",
             "Aloysius",
             [4,2],
@@ -587,9 +585,7 @@ create_game("2023-02-06",
              players["holty"]:      {"ap":0.3}
                   })
 
-#CUP GAME BILLED AS PITCH FEE NEED TO ADD THIS.
-
-create_game("2023-03-07",
+create_game("2024-03-07",
             "Ken Doherty",
             "Athenians",
             [4,1],
@@ -611,7 +607,7 @@ create_game("2023-03-07",
              players["dec"]:        {"ap":1, "y":1, "g":1}
                   })
 
-create_game("2023-03-20",
+create_game("2024-03-20",
             "Invitation Cup",
             "Spicegun",
             [3,1],
@@ -633,7 +629,7 @@ create_game("2023-03-20",
              players["dec"]:        {"ap":1, "g":1}
                   })
 
-create_game("2023-03-26", #add yellows
+create_game("2024-03-26", #add yellows
             "League",
             "Inter Mile End",
             [2,6],
@@ -655,7 +651,7 @@ create_game("2023-03-26", #add yellows
              players["dec"]:        {"ap":1}
                   })
 
-create_game("2023-04-26", #add yellows
+create_game("2024-04-10", #add yellows
             "League",
             "St. Johns",
             [3,6],
@@ -675,6 +671,30 @@ create_game("2023-04-26", #add yellows
              players["stirl"]:      {"ap":1,},
              players["g"]:         {"ap":1, "g":1},
              players["dec"]:        {"ap":1}
+                  })
+
+create_game("2024-04-23",
+            "League",
+            "CYP",
+            [5,2],
+            players["anand"],
+            {
+             players["holty"]:       {"ap":1},
+             players["benj"]:       {"ap":0.4},
+             players["anand"]:      {"ap":1},
+             players["roks"]:      {"ap":1},
+             players["samad"]:      {"ap":1},
+             players["suds"]:      {"ap":0.6},
+
+             players["duz"]:        {"ap":.25},
+             players["sups"]:     {"ap":.75},
+             players["andy"]:      {"ap":1},
+             players["boobs"]:      {"ap":0.4},
+
+             players["stirl"]:      {"ap":1},
+             players["g"]:         {"ap":1},
+             players["dec"]:        {"ap":1},
+             players["mk"]:        {"ap":0.6}
                   })
                 
 #%% ACTUAL PAYMENT SUBMISSIONS BELOW
@@ -838,24 +858,24 @@ create_payment("2024-01-08", players["anand"], players["ruskin"], 150, "pitches"
 custom_bill("2023-01-21", players["anand"], 
                             [players["fred"]
                             ], 35, True, "Fred Red Card vs St. Johns 2.0 Misconduct fee")
-create_payment("2023-01-22", players["fred"], players["anand"], 35, "red card top-up")
-create_payment("2023-01-22", players["anand"], players["ext"], 12, "streatham yellow card 47 fee - 35 custom bill for red card")
-create_payment("2023-01-29", players["sups"], players["anand"], 50, "top-up")
-create_payment("2023-01-29", players["anand"], players["sups"], 100, "repay")
-create_payment("2023-01-29", players["bean"], players["anand"], 50, "top-up")
-create_payment("2023-02-01", players["alex h"], players["anand"], 50, "top-up")
-create_payment("2023-02-01", players["suds"], players["anand"], 50, "top-up")
-create_payment("2023-02-01", players["anand"], players["ext"], 36, "fines")
-create_payment("2023-02-01", players["anand"], players["ruskin"], 105, "match fees")
-create_payment("2023-02-05", players["andy"], players["anand"], 23.1, "top-up")
-create_payment("2023-02-07", players["benj"], players["anand"], 50, "top-up")
-create_payment("2023-02-14", players["hunter"], players["anand"], 50, "top-up")
-create_payment("2023-02-19", players["anand"], players["ruskin"], 200, "match fees")
-create_payment("2023-02-27", players["sups"], players["anand"], 50, "top-up")
-create_payment("2023-03-01", players["suds"], players["anand"], 50, "top-up")
-create_payment("2023-03-01", players["alex h"], players["anand"], 50, "top-up")
-create_payment("2023-03-05", players["anand"], players["ruskin"], 95, "match fees")
-custom_bill("2023-03-01", players["ruskin"], 
+create_payment("2024-01-22", players["fred"], players["anand"], 35, "red card top-up")
+create_payment("2024-01-22", players["anand"], players["ext"], 12, "streatham yellow card 47 fee - 35 custom bill for red card")
+create_payment("2024-01-29", players["sups"], players["anand"], 50, "top-up")
+create_payment("2024-01-29", players["anand"], players["sups"], 100, "repay")
+create_payment("2024-01-29", players["bean"], players["anand"], 50, "top-up")
+create_payment("2024-02-01", players["alex h"], players["anand"], 50, "top-up")
+create_payment("2024-02-01", players["suds"], players["anand"], 50, "top-up")
+create_payment("2024-02-01", players["anand"], players["ext"], 36, "fines")
+create_payment("2024-02-01", players["anand"], players["ruskin"], 105, "match fees")
+create_payment("2024-02-05", players["andy"], players["anand"], 23.1, "top-up")
+create_payment("2024-02-07", players["benj"], players["anand"], 50, "top-up")
+create_payment("2024-02-14", players["hunter"], players["anand"], 50, "top-up")
+create_payment("2024-02-19", players["anand"], players["ruskin"], 200, "match fees")
+create_payment("2024-02-27", players["sups"], players["anand"], 50, "top-up")
+create_payment("2024-03-01", players["suds"], players["anand"], 50, "top-up")
+create_payment("2024-03-01", players["alex h"], players["anand"], 50, "top-up")
+create_payment("2024-03-05", players["anand"], players["ruskin"], 95, "match fees")
+custom_bill("2024-03-01", players["ruskin"], 
                             [players['roks'],
                             players['boobs'],
                             players['g'],
@@ -871,14 +891,40 @@ custom_bill("2023-03-01", players["ruskin"],
                             players['sups'],
                             players['holty'],
                             ], pitch_fee, True, "Missed cup match due to team bailing[PART OF INVOICE]")
-create_payment("2023-03-20", players["anand"], players["ext"], 24, "fines")
-create_payment("2023-03-20", players["anand"], players["ruskin"], 188.55, "match fees")
-create_payment("2023-03-21", players["stirl"], players["anand"], 40, "top-up")
-create_payment("2023-03-22", players["fred"], players["anand"], 50, "top-up")
-create_payment("2023-03-23", players["dec"], players["anand"], 50, "top-up")
-create_payment("2023-03-24", players["holty"], players["anand"], 30, "top-up")
-create_payment("2023-03-27", players["sups"], players["anand"], 50, "top-up")
-create_payment("2023-03-27", players["anand"], players["ext"], 36, "fines")
+create_payment("2024-03-20", players["anand"], players["ext"], 24, "fines")
+create_payment("2024-03-20", players["anand"], players["ruskin"], 188.55, "INVOICE: 2024-03-18")
+create_payment("2024-03-21", players["stirl"], players["anand"], 40, "top-up")
+create_payment("2024-03-22", players["fred"], players["anand"], 50, "top-up")
+create_payment("2024-03-23", players["dec"], players["anand"], 50, "top-up")
+create_payment("2024-03-24", players["holty"], players["anand"], 30, "top-up")
+create_payment("2024-03-27", players["sups"], players["anand"], 50, "top-up")
+create_payment("2024-03-27", players["anand"], players["ext"], 36, "fines")
+create_payment("2024-04-02", players["suds"], players["anand"], 50, "top-up")
+create_payment("2024-04-10", players["anand"], players["ruskin"], 207.35, "INVOICE: 2024-04-04")
+custom_bill("2024-04-10", players["ruskin"], 
+                            [players['roks'],
+                            players['boobs'],
+                            players['g'],
+                            players['suds'],
+                            players['stirl'],
+                            players['duz'],
+                            players['dec'],
+                            players['fred'],
+                            players['alex h'],
+                            players['benj'],
+                            players['mk'],
+                            players['anand'],
+                            players['sups'],
+                            players['holty'],
+                            players['andy']
+                            ], 102, True, "Fines for bad admin INVOICE: 2024-04-04")
+create_payment("2024-04-12", players["fred"], players["anand"], 20, "top-up")
+create_payment("2024-04-13", players["stirl"], players["anand"], 20, "top-up")
+create_payment("2024-04-19", players["alex f"], players["anand"], 19, "top-up")
+create_payment("2024-04-19", players["duz"], players["anand"], 50, "top-up")
+create_payment("2024-04-24", players["holty"], players["anand"], 16.55, "top-up")
+
+
 
 
 
