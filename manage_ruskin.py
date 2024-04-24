@@ -688,12 +688,12 @@ create_game("2024-04-23",
 
              players["duz"]:        {"ap":.25},
              players["sups"]:     {"ap":.75},
-             players["andy"]:      {"ap":1},
+             players["andy"]:      {"ap":1, "a":1},
              players["boobs"]:      {"ap":0.4},
 
-             players["stirl"]:      {"ap":1},
-             players["g"]:         {"ap":1},
-             players["dec"]:        {"ap":1},
+             players["stirl"]:      {"ap":1, "g":1, "a":2},
+             players["g"]:         {"ap":1, "a":1, "g":1},
+             players["dec"]:        {"ap":1, "g":3},
              players["mk"]:        {"ap":0.6}
                   })
                 
