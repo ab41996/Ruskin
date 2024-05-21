@@ -693,8 +693,32 @@ create_game("2024-04-23",
 
              players["stirl"]:      {"ap":1, "g":1, "a":2},
              players["g"]:         {"ap":1, "a":1, "g":1},
-             players["dec"]:        {"ap":1, "g":3},
+             players["dec"]:        {"ap":1, "g":3, "y":1},
              players["mk"]:        {"ap":0.6}
+                  })
+
+create_game("2024-05-08", #add goals and assists
+            "Invitation Cup",
+            "Camden",
+            [6,4],
+            players["anand"],
+            {
+             players["alex h"]:       {"ap":1,"y":1},
+             players["fred"]:       {"ap":0.2},
+             players["anand"]:      {"ap":1},
+             players["roks"]:      {"ap":0.8},
+             players["samad"]:      {"ap":1,"y":1},
+             players["suds"]:      {"ap":1},
+
+             players["duz"]:        {"ap":0.3},
+             players["sups"]:     {"ap":1},
+             players["andy"]:      {"ap":0.7,"y":1},
+             players["boobs"]:      {"ap":1},
+
+             players["stirl"]:      {"ap":1,},
+             players["g"]:         {"ap":1,"y":1},
+             players["dec"]:        {"ap":0.8,},
+             players["hunter"]:      {"ap":0.2}
                   })
                 
 #%% ACTUAL PAYMENT SUBMISSIONS BELOW
@@ -923,6 +947,12 @@ create_payment("2024-04-13", players["stirl"], players["anand"], 20, "top-up")
 create_payment("2024-04-19", players["alex f"], players["anand"], 19, "top-up")
 create_payment("2024-04-19", players["duz"], players["anand"], 50, "top-up")
 create_payment("2024-04-24", players["holty"], players["anand"], 16.55, "top-up")
+create_payment("2024-04-29", players["sups"], players["anand"], 50, "top-up")
+create_payment("2024-05-01", players["suds"], players["anand"], 50, "top-up")
+create_payment("2024-05-12", players["anand"], players["ext"], 15, "fines")
+create_payment("2024-05-12", players["anand"], players["ext"], 48, "fines")
+create_payment("2024-05-12", players["anand"], players["ext"], 5, "fines")
+create_payment("2024-05-12", players["anand"], players["sups"], 250, "pay-back")
 
 
 
