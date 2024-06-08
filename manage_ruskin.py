@@ -715,11 +715,63 @@ create_game("2024-05-08", #add goals and assists
              players["andy"]:      {"ap":0.7,"y":1},
              players["boobs"]:      {"ap":1},
 
-             players["stirl"]:      {"ap":1,},
+             players["stirl"]:      {"ap":1, "sb":1},
              players["g"]:         {"ap":1,"y":1},
              players["dec"]:        {"ap":0.8,},
              players["hunter"]:      {"ap":0.2}
                   })
+
+create_game("2024-05-22", #add goals and assists
+            "League",
+            "HP Finchley",
+            [2,1],
+            players["anand"],
+            {
+             players["holty"]:       {"ap":1},
+
+             players["anand"]:      {"ap":1},
+             players["roks"]:      {"ap":1,"y":1},
+             players["samad"]:      {"ap":1},
+             players["benj"]:      {"ap":0.7,"y":1},
+             players["suds"]:      {"ap":0.3},
+             players["fred"]:      {"ap":0.3},
+
+             players["duz"]:        {"ap":1},
+             players["sups"]:     {"ap":1},
+             players["toby"]:      {"ap":1,},
+
+             players["stirl"]:      {"ap":1, "sb":1, "y":1}, #adding yellow for fine
+             players["mk"]:         {"ap":1},
+             players["dec"]:        {"ap":0.8,"g":2},
+             players["hunter"]:     {"ap":0.2,},
+                  })
+
+create_game("2024-05-30", #add goals and assists
+            "League",
+            "Camden",
+            [2,1],
+            players["anand"],
+            {
+             players["holty"]:       {"ap":1},
+
+             players["anand"]:      {"ap":1},
+             players["roks"]:      {"ap":1},
+             players["samad"]:      {"ap":1},
+             players["benj"]:      {"ap":0.7},
+             players["fred"]:      {"ap":1},
+
+             players["duz"]:        {"ap":1},
+             players["sups"]:     {"ap":1, "y":1},
+             players["toby"]:      {"ap":0.3},
+             players["boobs"]:      {"ap":0.7,},
+             players["andy"]:      {"ap":1, "y":1},
+
+             players["stirl"]:      {"ap":1, "y":1},
+             players["mk"]:         {"ap":1},
+             players["dec"]:        {"ap":0.8,},
+             players["hunter"]:     {"ap":0.2,},
+                  })
+
                 
 #%% ACTUAL PAYMENT SUBMISSIONS BELOW
 
@@ -942,6 +994,7 @@ custom_bill("2024-04-10", players["ruskin"],
                             players['holty'],
                             players['andy']
                             ], 102, True, "Fines for bad admin INVOICE: 2024-04-04")
+create_payment("2024-04-12", players["toby"], players["sups"], 36.34, "top-up")
 create_payment("2024-04-12", players["fred"], players["anand"], 20, "top-up")
 create_payment("2024-04-13", players["stirl"], players["anand"], 20, "top-up")
 create_payment("2024-04-19", players["alex f"], players["anand"], 19, "top-up")
@@ -950,9 +1003,45 @@ create_payment("2024-04-24", players["holty"], players["anand"], 16.55, "top-up"
 create_payment("2024-04-29", players["sups"], players["anand"], 50, "top-up")
 create_payment("2024-05-01", players["suds"], players["anand"], 50, "top-up")
 create_payment("2024-05-12", players["anand"], players["ext"], 15, "fines")
-create_payment("2024-05-12", players["anand"], players["ext"], 48, "fines")
-create_payment("2024-05-12", players["anand"], players["ext"], 5, "fines")
-create_payment("2024-05-12", players["anand"], players["sups"], 250, "pay-back")
+create_payment("2024-05-16", players["anand"], players["ext"], 48, "fines")
+create_payment("2024-05-20", players["anand"], players["ext"], 5, "fines")
+create_payment("2024-05-20", players["anand"], players["sups"], 250, "pay-back")
+custom_bill("2024-06-08", players["anand"], 
+                            [players['roks'],
+                            players['boobs'],
+                            players['g'],
+                            players['suds'],
+                            players['stirl'],
+                            players['duz'],
+                            players['dec'],
+                            players['fred'],
+                            players['alex h'],
+                            players['benj'],
+                            players['mk'],
+                            players['anand'],
+                            players['sups'],
+                            players['holty'],
+                            players['andy']
+                            ], 15, True, "New balls")
+custom_bill("2024-06-08", players["anand"], 
+                            [players['roks'],
+                            players['boobs'],
+                            players['g'],
+                            players['suds'],
+                            players['stirl'],
+                            players['duz'],
+                            players['dec'],
+                            players['fred'],
+                            players['alex h'],
+                            players['benj'],
+                            players['mk'],
+                            players['anand'],
+                            players['sups'],
+                            players['holty'],
+                            players['andy']
+                            ], 15, True, "Sin bins")
+create_payment("2024-06-08", players["anand"], players["ext"], 81, "fines")
+
 #ADD PAYMENTS FROM TOBY AND BEN J TO SUPS
 
 
