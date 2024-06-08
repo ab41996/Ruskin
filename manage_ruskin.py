@@ -750,7 +750,7 @@ create_game("2024-05-30", #add goals and assists
             "League",
             "Camden",
             [2,1],
-            players["anand"],
+            players["ruskin"],
             {
              players["holty"]:       {"ap":1},
 
@@ -1006,7 +1006,7 @@ create_payment("2024-05-12", players["anand"], players["ext"], 15, "fines")
 create_payment("2024-05-16", players["anand"], players["ext"], 48, "fines")
 create_payment("2024-05-20", players["anand"], players["ext"], 5, "fines")
 create_payment("2024-05-20", players["anand"], players["sups"], 250, "pay-back")
-custom_bill("2024-06-08", players["anand"], 
+custom_bill("2024-06-02", players["anand"], 
                             [players['roks'],
                             players['boobs'],
                             players['g'],
