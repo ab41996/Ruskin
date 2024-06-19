@@ -1041,6 +1041,18 @@ custom_bill("2024-06-08", players["anand"],
                             players['andy']
                             ], 15, True, "Sin bins")
 create_payment("2024-06-08", players["anand"], players["ext"], 81, "fines")
+create_payment("2024-06-08", players["duz"], players["anand"], 21, "top-up")
+create_payment("2024-06-08", players["roks"], players["anand"], 21, "top-up")
+create_payment("2024-06-08", players["fred"], players["anand"], 25, "top-up")
+create_payment("2024-06-08", players["stirl"], players["anand"], 68, "top-up")
+create_payment("2024-06-08", players["holty"], players["anand"], 46.62, "top-up")
+create_payment("2024-06-09", players["mk"], players["anand"], 100, "top-up")
+create_payment("2024-06-10", players["samad"], players["roks"], 123, "top-up")
+create_payment("2024-06-10", players["roks"], players["anand"], 143, "top-up")
+create_payment("2024-06-10", players["anand"], players["roks"], 20, "refund")
+create_payment("2024-06-13", players["boobs"], players["anand"], 48, "top-up")
+create_payment("2024-06-15", players["dec"], players["anand"], 60.60, "top-up")
+create_payment("2024-06-19", players["benj"], players["anand"], 34, "top-up")
 
 #ADD PAYMENTS FROM TOBY AND BEN J TO SUPS
 
