@@ -6,6 +6,7 @@ import numpy as np
 from types import SimpleNamespace
 import json
 import sqlalchemy
+import math
 
 """
 THINGS TO DO:
@@ -1112,6 +1113,53 @@ payments
 # %%
 games
 #%%
+raw_games_data.reset_index(drop=True, inplace=True)
+#%%
+raw_games_data['match_data'][0]
+#%%
+player_stats = {}
+# Iterate through all raw games data
+for game in raw_games_data['match_data']:
+    # Convert the JSON string to a dictionary
+    game_data = game
+    
+    # Iterate through each player's data in the game
+    for player_name, player_data in game_data['player_data'].items():
+        # Extract the player's name if it is not already in the player_stats dictionary
+        if player_name not in player_stats:
+            player_stats[player_name] = {
+                'total_appearances': math.ceil(player_data.get('ap', 0)),
+                'total_minutes': player_data.get('ap', 0) * 90,
+                'total_goals': player_data.get('g',0),
+                'total_assists': player_data.get('a',0),
+                'total_yellow_cards': player_data.get('y',0) + player_data.get('sb',0),
+                'total_red_cards': player_data.get('r',0),
+            }
+        #if player name already in player stats then add new values to existing stats
+        else:
+            player_stats[player_name]['total_appearances'] += math.ceil(player_data.get('ap', 0))
+            player_stats[player_name]['total_minutes'] += player_data.get('ap', 0)*90
+            player_stats[player_name]['total_goals'] += player_data.get('g',0)
+            player_stats[player_name]['total_assists'] += player_data.get('a',0)
+            player_stats[player_name]['total_yellow_cards'] += (player_data.get('y',0) + player_data.get('sb',0))
+            player_stats[player_name]['total_red_cards'] += player_data.get('r',0)
+
+# Convert the player_stats dictionary to a DataFrame
+player_stats_df = pd.DataFrame(player_stats).T
+player_stats_df
+
+#create goals per game and assists per game and reds per game and yellows per game
+player_stats_df['goals_per_90'] = player_stats_df['total_goals'] / player_stats_df['total_minutes']*90
+player_stats_df['assists_per_90'] = player_stats_df['total_assists'] / player_stats_df['total_minutes']*90
+player_stats_df['reds_per_90'] = player_stats_df['total_red_cards'] / player_stats_df['total_minutes']*90
+player_stats_df['yellows_per_90'] = player_stats_df['total_yellow_cards'] / player_stats_df['total_minutes']*90
+
+#order dataframe by player name alphabetically
+player_stats_df = player_stats_df.sort_index()
+player_stats_df
+
+#%%
+#
 #%% Creating sqlite database ______________________________
 #==================================================FUCNTIONing CODE==================================================================================================================================
 #Create a database to store the pandas dataframes
