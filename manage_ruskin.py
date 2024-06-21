@@ -1054,7 +1054,23 @@ create_payment("2024-06-10", players["anand"], players["roks"], 20, "refund")
 create_payment("2024-06-13", players["boobs"], players["anand"], 48, "top-up")
 create_payment("2024-06-15", players["dec"], players["anand"], 60.60, "top-up")
 create_payment("2024-06-19", players["benj"], players["anand"], 34, "top-up")
-
+custom_bill("2024-06-08", players["anand"], 
+                            [players['roks'],
+                            players['boobs'],
+                            players['g'],
+                            players['suds'],
+                            players['stirl'],
+                            players['duz'],
+                            players['dec'],
+                            players['fred'],
+                            players['alex h'],
+                            players['benj'],
+                            players['mk'],
+                            players['anand'],
+                            players['sups'],
+                            players['holty'],
+                            players['andy']
+                            ], 30, True, "EOS shots")
 #ADD PAYMENTS FROM TOBY AND BEN J TO SUPS
 
 
@@ -1157,6 +1173,26 @@ player_stats_df['yellows_per_90'] = player_stats_df['total_yellow_cards'] / play
 #order dataframe by player name alphabetically
 player_stats_df = player_stats_df.sort_index()
 player_stats_df
+#%%
+#convert first 6 collumns to integers and last 4 rounded to 2 decimal places
+player_stats_df = player_stats_df.astype({'total_appearances': int, 'total_minutes': int, 'total_goals': int, 'total_assists': int, 'total_yellow_cards': int, 'total_red_cards': int})
+#convert last 4 collumns to be float to 2 decimal place
+player_stats_df = player_stats_df.round({'goals_per_90': 2, 'assists_per_90': 2, 'reds_per_90': 2, 'yellows_per_90': 2})
+player_stats_df
+#%%
+html_custom = player_stats_df.to_html(
+    index=False,
+    border=0,
+    classes='table table-striped',
+    justify='center',
+    na_rep='N/A'
+)
+# Save to an HTML file
+with open('dataframe.html', 'w') as f:
+    f.write(html_custom)
+
+player_stats_df.to_csv('player_stats.csv')
+
 
 #%%
 #
