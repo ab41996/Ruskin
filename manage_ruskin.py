@@ -1072,6 +1072,15 @@ custom_bill("2024-06-08", players["anand"],
                             players['andy']
                             ], 30, True, "EOS shots")
 #ADD PAYMENTS FROM TOBY AND BEN J TO SUPS
+create_payment("2024-06-23", players["harley"], players["anand"], 27, "top-up")
+create_payment("2024-06-23", players["hunter"], players["anand"], 15, "top-up")
+create_payment("2024-06-24", players["andy"], players["anand"], 50, "top-up")
+create_payment("2024-06-25", players["sups"], players["anand"], 39.52, "top-up")
+create_payment("2024-06-25", players["sups"], players["anand"], 10, "top-up")
+create_payment("2024-06-25", players["toby"], players["anand"], 18, "top-up")
+create_payment("2024-06-26", players["g"], players["anand"], 60, "top-up")
+
+
 
 
 
